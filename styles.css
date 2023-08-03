@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --bg-color: #94a3b8;
+  --bg-color-Zinc: #71717a;
+}
+
+body {
+  background-color: var(--bg-color);
+  text-align: center;
+  padding: 10px;
+  overflow: scroll;
+}
+section.one {
+  width: 100%;
+  background-color: red;
+  font-size: clamp(3rem, 8vh, 6rem);
+  color: white;
+  padding: 10px 0px;
+}
+section.two {
+  margin-top: 5px;
+  padding: 20px 8%;
+}
+
+section > div {
+  font-size: clamp(3rem, 3vh, 6rem);
+  /* height: 100svh; */
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* grid-template-columns: 1fr 1fr; */
+
+  gap: 10px;
+}
+.wrapper_div {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  position: relative;
+  min-height: 450px;
+  left: 1%;
+  opacity: 0;
+}
+.wrapper_div h5 {
+  text-align: justify;
+  font-size: clamp(1rem, 2vh, 3rem);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s;
+}
+
+.wrapper_div.scroll {
+  left: 0;
+  opacity: 1;
+  transition: all 0.5s;
+}
+.wrapper div.one {
+  background-color: white;
+}
+p {
+  font-size: clamp(3rem, 3vh, 6rem);
+  padding: 20px 8%;
+}
+
+section.sticky {
+  position: fixed;
+  padding: 10px 0px;
+  top: 0;
+  left: 0;
+  margin-bottom: 10px;
+  background-color: black;
+  z-index: 999;
+  transition: padding 0.7s;
+  transition: all 0.4s ease-in-out;
+}
