@@ -26,7 +26,6 @@
     <!-- NavBar - 1  -->
 
     <section class="minus_one">
-      <div class="blur_div"></div>
       <section class="one">
         <nav class="navbar">
           <div class="drop_down hidden">
@@ -39,33 +38,40 @@
               <li class="drop_down_item">Privacy Policy</li>
             </ul>
           </div>
-          <div class="logo">
-            <img class="cancel_drop hidden" src="./images/cancel.png" alt="" />
+          <div class="logo onfocus">
+            <img
+              class="cancel_drop hidden onfocus"
+              src="./images/cancel.png"
+              alt=""
+            />
             <div class="menu_logo"></div>
             <div class="menu_logo"></div>
             <div class="menu_logo"></div>
           </div>
 
-          <div class="logo_name">
-            <h4>Movie <span>Hub</span></h4>
+          <div class="logo_name onfocus">
+            <h4>Movie<span>Hub</span></h4>
           </div>
           <div class="user_div">
             <div class="icon_bookmark">
-              <img src="./images/user_white.png" alt="" class="login_img" />
-              <img
-                src="./images/bookmark-white.png"
-                alt=""
-                class="icon_bookmark"
-              />
+              <i class="fa-solid fa-magnifying-glass fa-2xs onfocus"></i>
+              <i class="fa-solid fa-arrow-right fa-2xs onfocus"></i>
             </div>
           </div>
         </nav>
       </section>
 
+      <div class="search_div">
+        <form class="search_input" action="">
+          <input type="text" name="" id="" />
+          <img class="lens_img" src="./images/magnifying-glass-2.png" alt="" />
+        </form>
+      </div>
+
       <section class="landing_movie">
         <h4 class="movie_name">THE PROFESSOR</h4>
         <div class="inner_landing_div">
-          <h4 class="format">HD</h4>
+          <h4 class="clicked format">HD</h4>
           <h4 class="active p_guidance">PG-13</h4>
 
           <div class="rating">
@@ -78,20 +84,31 @@
 
         <div class="watch_bookmark">
           <button class="btn_watch">
-            <i class="fa-regular fa-circle-play"></i> <span class="span_watch">Watch Now</span>
+            <i
+              class="fa-regular fa-circle-play fa-xl"
+              style="color: #000000"
+            ></i>
+            <span class="span_watch">Watch Now</span>
           </button>
           <h4 class="bookmark_item">
-            <i class="fa-regular fa-bookmark"></i><span class="span_bookmark">Bookmark</span>
+            <i class="fa-regular fa-bookmark"></i
+            ><span class="span_bookmark">Bookmark</span>
           </h4>
         </div>
       </section>
     </section>
 
-    <!-- <div class="shadowed">
-      <div class="circle">this</div>
-    </div> -->
-
     <!-- Main Section  -->
+
+    <!-- section.trending -->
+    <section class="trending">
+      <h4>Trending Movies</h4>
+
+      <div class="trending_div">
+        <h4>Shooter</h4>
+        <h4>Action</h4>
+      </div>
+    </section>
     <section class="two">
       <div class="wrapper">
         <div class="wrapper_div one">

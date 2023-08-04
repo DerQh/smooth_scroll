@@ -11,8 +11,16 @@
   --font-famil2: "Roboto", sans-serif;
 }
 
+
+
+
+
+
+
+
+
 .shadowed {
-  background: rgb(162, 32, 32);
+  background: white;
   height: 400px;
   margin: 100px;
   padding: 20px;
@@ -22,7 +30,7 @@
 .shadowed::after {
   border-radius: 0 0 300px 300px;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
-  content: "";
+  content: '';
   display: block;
   height: 350px;
   left: 0;
@@ -33,9 +41,68 @@
 }
 
 body {
-  background: rgb(162, 32, 32);
+  object-fit: cover;
+  /* background: rgb(162, 32, 32);  */
   font-family: "Roboto", sans-serif;
   text-align: center;
   padding: 10px;
   overflow: scroll;
+
+
+.landing_movie {
+  background-image: url("https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"); 
+  background-size: cover;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+}
+.movie_name {
+  font-size: 1.2rem;
+  margin: 10px 0px;
+}
+.inner_landing_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6rem;
+  width: 90%;
+  gap: 15px;
+  margin: 10px 0px;
+}
+h4.active {
+  color: rgb(251, 246, 246);
+  border: 1px solid rgb(248, 243, 243);
+  border-radius: 9px;
+  padding: 2px;
+}
+.rating,
+.watch_bookmark {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+  align-content: center;
+}
+
+.btn_watch {
+  background-color: aqua;
+  border: none;
+  border-radius: 19px;
+  padding: 10px 35px;
+}
+.bookmark_item {
+  font-size: 1rem;
+  padding: 10px 30px;
+}
+.span_watch {
+  font-size: 1rem;
+}
+.fa-regular,
+span {
+  padding-left: 4px;
+}
+.span_bookmark {
+  padding-left: 9px;
 }
