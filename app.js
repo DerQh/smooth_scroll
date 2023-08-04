@@ -16,9 +16,11 @@ function observeDivs() {
   // create observer//
   const callback_Func = function (entries, observer) {
     entries.forEach((entry) => {
+      console.log(entry);
       if (entry.isIntersecting) {
-        console.log(entry);
+        // console.log(entry);
         entry.target.classList.add("scroll");
+        entry.target.classList.add("fadeinTop");
       } else {
         // entry.target.classList.add("scroll");
       }

@@ -1,0 +1,41 @@
+:root {
+  --brightColor: rgb(0, 172, 193);
+  --bg-color: #94a3b8;
+  --bg-color-Zinc: #71717a;
+  --colorMenu: #977c7c;
+  --colorMenuHover: #ddc2c2;
+  --bgcolor: rgb(25, 22, 22);
+  --bgLighter: rgb(51, 46, 46);
+  --bgLighter_blur: rgb(51, 46, 46, 0.2);
+  --font-family: "Questrial", sans-serif;
+  --font-famil2: "Roboto", sans-serif;
+}
+
+.shadowed {
+  background: rgb(162, 32, 32);
+  height: 400px;
+  margin: 100px;
+  padding: 20px;
+  position: relative;
+}
+
+.shadowed::after {
+  border-radius: 0 0 300px 300px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+  content: "";
+  display: block;
+  height: 350px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+body {
+  background: rgb(162, 32, 32);
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  padding: 10px;
+  overflow: scroll;
+}

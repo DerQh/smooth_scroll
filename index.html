@@ -2,70 +2,100 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0 maximum-scale=1"
+    />
     <link rel="stylesheet" href="styles.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
     <script defer src="app.js"></script>
-    <title>Smooth Scroll</title>
+    <script
+      src="https://kit.fontawesome.com/f3053b330e.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Movie Hub</title>
   </head>
   <body>
     <!-- NavBar - 1  -->
-    <section class="one">
-      <nav class="navbar">
-        <h5>this is a nav bar</h5>
-      </nav>
+
+    <section class="minus_one">
+      <div class="blur_div"></div>
+      <section class="one">
+        <nav class="navbar">
+          <div class="drop_down hidden">
+            <ul class="drop_down_list">
+              <li class="drop_down_item">Home</li>
+              <li class="drop_down_item">API</li>
+              <li class="drop_down_item">FAQ</li>
+              <li class="drop_down_item">Trending</li>
+              <li class="drop_down_item">Terms of Use</li>
+              <li class="drop_down_item">Privacy Policy</li>
+            </ul>
+          </div>
+          <div class="logo">
+            <img class="cancel_drop hidden" src="./images/cancel.png" alt="" />
+            <div class="menu_logo"></div>
+            <div class="menu_logo"></div>
+            <div class="menu_logo"></div>
+          </div>
+
+          <div class="logo_name">
+            <h4>Movie <span>Hub</span></h4>
+          </div>
+          <div class="user_div">
+            <div class="icon_bookmark">
+              <img src="./images/user_white.png" alt="" class="login_img" />
+              <img
+                src="./images/bookmark-white.png"
+                alt=""
+                class="icon_bookmark"
+              />
+            </div>
+          </div>
+        </nav>
+      </section>
+
+      <section class="landing_movie">
+        <h4 class="movie_name">THE PROFESSOR</h4>
+        <div class="inner_landing_div">
+          <h4 class="format">HD</h4>
+          <h4 class="active p_guidance">PG-13</h4>
+
+          <div class="rating">
+            <i class="fa-solid fa-star" style="color: #ffffff"></i>
+            <h4 class="movie_rating">7.7</h4>
+          </div>
+          <h4 class="year">2023</h4>
+          <h4 class="duration">114 min</h4>
+        </div>
+
+        <div class="watch_bookmark">
+          <button class="btn_watch">
+            <i class="fa-regular fa-circle-play"></i> <span class="span_watch">Watch Now</span>
+          </button>
+          <h4 class="bookmark_item">
+            <i class="fa-regular fa-bookmark"></i><span class="span_bookmark">Bookmark</span>
+          </h4>
+        </div>
+      </section>
     </section>
 
-    <!-- <p>
-      What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and
-      typesetting industry. Lorem Ipsum has been the industry's standard dummy
-      text ever since the 1500s, when an unknown printer took a galley of type
-      and scrambled it to make a type specimen book. It has survived not only
-      five centuries, but also the leap into electronic typesetting, remaining
-      essentially unchanged. It was popularised in the 1960s with the release of
-      Letraset sheets containing Lorem Ipsum passages, and more recently with
-      desktop publishing software like Aldus PageMaker including versions of
-      Lorem Ipsum.
-    </p>
-    <p>
-      What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and
-      typesetting industry. Lorem Ipsum has been the industry's standard dummy
-      text ever since the 1500s, when an unknown printer took a galley of type
-      and scrambled it to make a type specimen book. It has survived not only
-      five centuries, but also the leap into electronic typesetting, remaining
-      essentially unchanged. It was popularised in the 1960s with the release of
-      Letraset sheets containing Lorem Ipsum passages, and more recently with
-      desktop publishing software like Aldus PageMaker including versions of
-      Lorem Ipsum.
-    </p>
-    <p>
-      What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and
-      typesetting industry. Lorem Ipsum has been the industry's standard dummy
-      text ever since the 1500s, when an unknown printer took a galley of type
-      and scrambled it to make a type specimen book. It has survived not only
-      five centuries, but also the leap into electronic typesetting, remaining
-      essentially unchanged. It was popularised in the 1960s with the release of
-      Letraset sheets containing Lorem Ipsum passages, and more recently with
-      desktop publishing software like Aldus PageMaker including versions of
-      Lorem Ipsum.
-    </p>
-    <p>
-      What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and
-      typesetting industry. Lorem Ipsum has been the industry's standard dummy
-      text ever since the 1500s, when an unknown printer took a galley of type
-      and scrambled it to make a type specimen book. It has survived not only
-      five centuries, but also the leap into electronic typesetting, remaining
-      essentially unchanged. It was popularised in the 1960s with the release of
-      Letraset sheets containing Lorem Ipsum passages, and more recently with
-      desktop publishing software like Aldus PageMaker including versions of
-      Lorem Ipsum.
-    </p> -->
+    <!-- <div class="shadowed">
+      <div class="circle">this</div>
+    </div> -->
+
     <!-- Main Section  -->
     <section class="two">
       <div class="wrapper">
         <div class="wrapper_div one">
-          <h5>
-            industry's standard dummy text ever since the 1500s
-          </h5>
+          <h5>industry's standard dummy text ever since the 1500s</h5>
         </div>
         <div class="wrapper_div two">
           <h5>wrapper Div two</h5>
