@@ -1,6 +1,8 @@
 const section_OneEl = document.querySelector(".one");
 const navbarEL = document.querySelector(".navbar");
 const wrappperDivEl = document.querySelectorAll(".wrapper_div");
+const image_divEl = document.querySelectorAll(".image_div");
+
 const logoEl = document.querySelector(".logo");
 const menuDropEl = document.querySelector(".drop_down");
 const signUpDivEl = document.querySelector(".sign_up");
@@ -15,6 +17,7 @@ const menuDIvEl = document.querySelector(".minus_one");
 const lensEl = document.querySelector(".fa-magnifying-glass");
 const searchDivEl = document.querySelector(".search_div");
 const loginEl = document.querySelector(".to_logIN");
+const movieBtnEl = document.querySelector(".genre");
 
 function scroll_naavbar() {
   window.onscroll = function () {
@@ -103,14 +106,19 @@ function toggelMenu() {
   });
 }
 
-logoEl.addEventListener("click", function (event) {
-  const target = event.target
-  if (
-    !target.closest("body").length &&
-    $("#menucontainer").is(":visible")
-  ) {
-    $("#menucontainer").hide();
-  }
+// movie hover//
+wrappperDivEl.forEach((el) => {
+  el.addEventListener("mouseover", function (event) {
+    // console.log(el.childNodes[5]);
+    el.childNodes[1].childNodes[1].classList.toggle("show_image");
+    el.childNodes[3].childNodes[3].classList.toggle("color_aqua_border");
+    el.childNodes[5].classList.toggle("color_aqua");
+  });
+  el.addEventListener("mouseout", function (event) {
+    el.childNodes[1].childNodes[1].classList.toggle("show_image");
+    el.childNodes[3].childNodes[3].classList.toggle("color_aqua_border");
+    el.childNodes[5].classList.toggle("color_aqua");
+  });
 });
 
 // Event Listiner//

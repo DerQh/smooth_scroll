@@ -51,10 +51,10 @@
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 1px;
 }
 ::-webkit-scrollbar-thumb {
-  width: 2px;
+  width: 1px;
   background-color: aqua;
 }
 ::-webkit-scrollbar-track {
@@ -86,7 +86,6 @@ body {
   transition: all 0.3s ease-in;
   opacity: 1;
 }
-
 
 .sign_up_call {
   color: white;
@@ -600,11 +599,7 @@ section {
   border-radius: 10px;
   object-fit: cover;
 }
-.genre {
-  border: 0.5px solid gray;
-  padding: 2px 7px;
-  border-radius: 9.5px;
-}
+
 .movie_details {
   padding: 10px 0px;
   background-color: var(--bgcolor);
@@ -619,11 +614,21 @@ section {
   font-weight: 300;
   text-align: left;
 }
-.movie_details > h4 {
+
+.year,
+.genre,
+.runtime {
   color: gray;
   font-size: 0.7rem;
   font-weight: 300;
 }
+
+.genre {
+  border: 0.5px solid gray;
+  padding: 2px 7px;
+  border-radius: 9.5px;
+}
+
 .menu_movies_div > h4:hover {
   cursor: pointer;
   border: 0.8px solid rgb(0, 255, 255);
@@ -647,9 +652,16 @@ section {
   width: 100%;
   height: 100%;
   background-image: linear-gradient(
-    rgba(0, 255, 255, 0.7),
-    rgba(0, 255, 255, 0.9)
+    rgba(0, 255, 255, 0.3),
+    rgba(0, 255, 255, 0.5)
   );
+  opacity: 1;
+  transition: all 0.6s ease-in-out;
+}
+
+.show_image {
+  visibility: hidden;
+  opacity: 0;
 }
 
 /*  */
@@ -692,6 +704,16 @@ p {
   font-size: clamp(3rem, 3vh, 6rem);
   padding: 20px 8%;
 }
+.hidden {
+  display: none;
+}
+.color_aqua_border {
+  color: aqua;
+  border: 0.9px solid aqua;
+}
+.color_aqua {
+  color: aqua;
+}
 
 /* Fade-In-Animation */
 
@@ -715,10 +737,7 @@ p {
   }
 }
 
-.hidden {
-  display: none;
-}
-
+/* 
 .shadowed {
   background: white;
   height: 400px;
@@ -738,4 +757,4 @@ p {
   top: 0;
   width: 100%;
   z-index: -1;
-}
+} */
