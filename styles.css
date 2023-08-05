@@ -192,7 +192,7 @@ body {
 .minus_one,
 .two,
 .trending {
-  max-width: 1000px;
+  max-width: 960px;
 }
 
 .minus_one {
@@ -356,8 +356,9 @@ section.one {
   font-size: clamp(2rem, 1px, 6rem);
   color: white;
   padding: 9px 9px;
-  background-color: rgb(25, 22, 22, 0.001);
+  background-color: rgb(25, 22, 22, 0.1);
 }
+
 .fa-arrow-right {
   margin-left: 20px;
 }
@@ -472,7 +473,7 @@ section.sticky {
 }
 .next_page {
   position: relative;
-  opacity: 0.6;
+  opacity: 1;
 }
 .next_page:hover {
   cursor: pointer;
@@ -492,12 +493,7 @@ section.sticky {
 }
 
 .trending_div {
-  background-image: linear-gradient(
-      45deg,
-      rgba(96, 100, 100, 0.7),
-      rgba(0, 255, 255, 0.5)
-    ),
-    url("https://i.pinimg.com/originals/52/79/a5/5279a591fe7b5aa3b6d2f53d4526a1de.jpg");
+  background-image: url("https://i.pinimg.com/originals/52/79/a5/5279a591fe7b5aa3b6d2f53d4526a1de.jpg");
   border-radius: 10px;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -724,11 +720,18 @@ p {
   -o-animation: fadeinTop 1.5s both;
 }
 
+.fadeinTopRight {
+  animation: fadeinTopRight 1.2s both;
+  -webkit-animation: fadeinTopRight 1.2s both;
+  -moz-animation: fadeinTopRight 1.2s both;
+  -o-animation: fadeinTopRight 1.5s both;
+}
+
 @keyframes fadeinTop {
   0% {
     opacity: 0;
     /* margin-top: 10px; */
-    -webkit-transform: translateX(-2px);
+    -webkit-transform: translateX(200px);
   }
 
   100% {
@@ -736,7 +739,17 @@ p {
     -webkit-transform: translateX(0);
   }
 }
+@keyframes fadeinTopRight {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-200px);
+  }
 
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+  }
+}
 /* 
 .shadowed {
   background: white;

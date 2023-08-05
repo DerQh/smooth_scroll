@@ -18,6 +18,7 @@ const lensEl = document.querySelector(".fa-magnifying-glass");
 const searchDivEl = document.querySelector(".search_div");
 const loginEl = document.querySelector(".to_logIN");
 const movieBtnEl = document.querySelector(".genre");
+const sectionOneEl = document.querySelector(".one");
 
 function scroll_naavbar() {
   window.onscroll = function () {
@@ -30,17 +31,24 @@ function scroll_naavbar() {
 }
 
 function observeDivs() {
+  let num = 0;
   // create observer//
   const callback_Func = function (entries, observer) {
     entries.forEach((entry) => {
-      // console.log(entry);
       if (entry.isIntersecting) {
-        // console.log(entry);
-        entry.target.classList.add("scroll");
-        entry.target.classList.add("fadeinTop");
+        if (num % 2 === 0) {
+          console.log(entry, num);
+          entry.target.classList.add("scroll");
+          entry.target.classList.add("fadeinTopRight");
+        } else {
+          console.log(entry, num);
+          entry.target.classList.add("scroll");
+          entry.target.classList.add("fadeinTop");
+        }
       } else {
         // entry.target.classList.add("scroll");
       }
+      num++;
     });
   };
   const observer = new IntersectionObserver(callback_Func, {
@@ -85,6 +93,7 @@ function toggelMenu() {
 
   lensEl.addEventListener("click", () => {
     searchDivEl.classList.toggle("active_search");
+    lensEl.classList.toggle("color_aqua");
   });
   logoEl.addEventListener("click", function () {
     menuDropEl.classList.toggle("show_menu");
