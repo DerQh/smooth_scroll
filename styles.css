@@ -188,6 +188,36 @@ body {
   transition: all 0.7s ease-in-out;
 }
 /* -----SIGN UP END ----  */
+
+/* CLICKED MOVIE SECTION */
+.play_btn_div {
+  border-radius: 50%;
+  background-color: var(--bgcolor);
+  width: fit-content;
+  margin: auto;
+  display: grid;
+}
+.movie_play_btn {
+  max-width: 70px;
+}
+.movie_page {
+  /* border: 1px solid red; */
+  margin-top: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+}
+.movie_page > .play_buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+/* --clicked movie END --- */
 /* Navbar */
 .minus_one,
 .two,
@@ -562,7 +592,7 @@ section {
 } */
 .wrapper {
   display: grid;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
@@ -573,22 +603,20 @@ section {
   border-radius: 10px;
   position: relative;
   min-height: 350px;
-  /* left: 1%; */
+  width: 42dvw;
   opacity: 0;
   margin-bottom: 20px;
   border: none;
-  /* border: 1px solid red ; */
+  /* border: 1px solid red; */
 }
 .image_div {
   position: relative;
   object-fit: contain;
   width: 100%;
   height: 100%;
-  /* min-height: 80%; */
   border-radius: 10px;
 }
 .image_movie {
-  min-height: 300px;
   min-height: 300px;
   width: 100%;
   height: 70%;
@@ -710,7 +738,43 @@ p {
 .color_aqua {
   color: aqua;
 }
+/* Single Movie Information */
 
+.wrapper-movie {
+  width: 100%;
+  margin: auto;
+  padding: 10px 0px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("https://i.pinimg.com/originals/52/79/a5/5279a591fe7b5aa3b6d2f53d4526a1de.jpg");
+  background-color: white;
+}
+.single_movie {
+  text-align: start;
+}
+.ratings_stars {
+  padding: 10px 4px;
+}
+.ratings_stars > i {
+  color: aqua;
+}
+.stars {
+  position: relative;
+  background-color: var(--bgcolor);
+  border-radius: 4px;
+  width: fit-content;
+  margin: auto;
+  height: 52px;
+  color: white;
+  padding: 0px 10px;
+}
+.review > p {
+  position: absolute;
+  top: 29%;
+  left: 10%;
+  font-size: 9px;
+  color: rgb(178, 177, 177);
+}
 /* Fade-In-Animation */
 
 .fadeinTop {
