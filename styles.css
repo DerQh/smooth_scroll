@@ -192,23 +192,29 @@ body {
 /* CLICKED MOVIE SECTION */
 .play_btn_div {
   border-radius: 50%;
-  background-color: var(--bgcolor);
+  background-color: rgba(25, 22, 22, 0.001);
   width: fit-content;
   margin: auto;
   display: grid;
 }
 .movie_play_btn {
   max-width: 70px;
+  animation: increase_play;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-direction: alternate;
 }
 .movie_page {
   /* border: 1px solid red; */
-  margin-top: 1%;
+  margin-top: 10%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
   padding: 10px;
+  height: 24dvh;
 }
 .movie_page > .play_buttons {
   display: flex;
@@ -436,6 +442,17 @@ section.sticky {
   z-index: 10;
   transition: padding 0.8s;
   /* filter: blur(4px); */
+}
+.sticky_movie {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100dvw;
+  background-color: rgb(25, 22, 22);
+  padding: 9px 15px;
+  /* left: 50%;
+  transform: translateX(-50%); */
+
 }
 
 /* drop down */
@@ -741,13 +758,13 @@ p {
 /* Single Movie Information */
 
 .wrapper-movie {
-  width: 100%;
-  margin: auto;
-  padding: 10px 0px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(25, 22, 22, 1)),
+    url("https://i.pinimg.com/originals/52/79/a5/5279a591fe7b5aa3b6d2f53d4526a1de.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url("https://i.pinimg.com/originals/52/79/a5/5279a591fe7b5aa3b6d2f53d4526a1de.jpg");
-  background-color: white;
+  color: rgb(190, 189, 189);
 }
 .single_movie {
   text-align: start;
@@ -758,6 +775,29 @@ p {
 .ratings_stars > i {
   color: aqua;
 }
+.movie-description {
+  margin-top: 60px;
+}
+
+.movie_title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.inner_landing_div.movies {
+  color: rgb(251, 246, 246);
+  justify-content: start;
+}
+.year {
+  font-weight: 500;
+  color: rgb(251, 246, 246);
+}
+.movie_synopsis {
+  /* border: 2px solid red; */
+  padding: 15px 0px;
+  line-height: 19px;
+  letter-spacing: 1px;
+  text-align: justify;
+}
 .stars {
   position: relative;
   background-color: var(--bgcolor);
@@ -765,7 +805,6 @@ p {
   width: fit-content;
   margin: auto;
   height: 52px;
-  color: white;
   padding: 0px 10px;
 }
 .review > p {
@@ -774,6 +813,19 @@ p {
   left: 10%;
   font-size: 9px;
   color: rgb(178, 177, 177);
+}
+.movie_info,
+.movie_synopsis {
+  font-size: 13px;
+  font-weight: 100;
+}
+.movie_infos {
+  display: grid;
+  grid-template-columns: 100px 2fr;
+  row-gap: 8px;
+}
+.movie_info:nth-child(even) {
+  color: white;
 }
 /* Fade-In-Animation */
 
@@ -789,6 +841,29 @@ p {
   -webkit-animation: fadeinTopRight 1.2s both;
   -moz-animation: fadeinTopRight 1.2s both;
   -o-animation: fadeinTopRight 1.5s both;
+}
+
+@keyframes increase_play {
+  0% {
+    opacity: 1;
+    scale: 1.1;
+  }
+  25% {
+    opacity: 0.8;
+    scale: 1.11;
+  }
+  50% {
+    opacity: 1;
+    scale: 1;
+  }
+  75% {
+    opacity: 0.8;
+    scale: 1.11;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
 }
 
 @keyframes fadeinTop {
