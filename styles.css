@@ -852,7 +852,7 @@ p {
   width: 90%;
   padding: 10px 15px;
   border-radius: 10px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(25, 22, 22, 0.1)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(25, 22, 22, 0.65)),
     url("https://i.pinimg.com/originals/52/79/a5/5279a591fe7b5aa3b6d2f53d4526a1de.jpg");
   background-repeat: no-repeat;
   background-size: cover;
