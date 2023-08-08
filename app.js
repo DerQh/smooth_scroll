@@ -37,14 +37,16 @@ function observeDivs() {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         if (num % 2 === 0) {
-          entry.target.classList.add("scroll");
-          entry.target.classList.add("fadeinTopRight");
+          entry.target.classList.toggle("scroll");
+          entry.target.classList.toggle("fadeinTopRight");
+          observer.unobserve(entry.target);
         } else {
-          entry.target.classList.add("scroll");
-          entry.target.classList.add("fadeinTop");
+          entry.target.classList.toggle("scroll");
+          entry.target.classList.toggle("fadeinTop");
+          observer.unobserve(entry.target);
         }
       } else {
-        // entry.target.classList.add("scroll");
+        return;
       }
       num++;
     });
@@ -131,6 +133,7 @@ const movie_page = function () {
   const trending_divEL = document.querySelector(".trending");
   const section_TwoEl = document.querySelector(".two");
   const parentELs = document.querySelectorAll(".cover_div");
+  // const all_moviesEl = document.querySelector("");
   window.addEventListener("DOMContentLoaded", function () {
     parentELs.forEach((el) => {
       el.addEventListener("click", function (event) {
@@ -185,7 +188,14 @@ const movie_page = function () {
             </div>
           </div>
         </div>
-      </div>`;
+      </div>
+       <div class="top_movies_div">
+            <!-- Menu -->
+          <div class="menu_recomende">
+            <h5 class="sub_title latest">RECOMMENDED</h5>
+           </div>
+       </div>
+`;
         section_TwoEl.innerHTML = "";
         navbarEL.classList.toggle("sticky_movie");
 
@@ -194,13 +204,46 @@ const movie_page = function () {
         movie_pageEl.classList.toggle("hidden");
         section_TwoEl.insertAdjacentHTML("afterbegin", markup);
         console.log(event.target);
+        // create the remomended section //
+        let markup_array = [];
+
+        for (x = 0; x <= 9; x++) {
+          let markup = ` <div class="top_movie reloaded">
+             <div class="top_10">
+                <div class="image_div_top">
+                   <img
+                   src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
+                   alt=""
+                  class="top_10_image"
+                   />
+                </div>
+                <div class="top_10_detail">
+                  <h6 class="top_paragraph">
+                      <span class="top_genre">MOVIE /</span>
+                       <span class="top_year">2023 /</span>
+                       <span class="top_min">100 min</span>
+                  </h6>
+                   <h6 class="top_title">The Professor</h6>
+                </div>
+              </div>`;
+          markup_array.push(markup);
+        }
+        const markup_recommended = markup_array.join("");
+        const top_moviesEL = document.querySelector(".top_movies_div");
+        top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
+
+        // console.log();
       });
     });
   });
 };
 
 // Event Listiner//
-toggelMenu();
-scroll_naavbar();
-observeDivs();
-movie_page();
+function init() {
+  toggelMenu();
+  scroll_naavbar();
+  observeDivs();
+  movie_page();
+}
+
+init();
