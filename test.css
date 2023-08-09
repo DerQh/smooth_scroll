@@ -11,53 +11,34 @@
   --font-famil2: "Roboto", sans-serif;
 }
 
-
-
-
-
-
-
-
-
-.shadowed {
-  background: white;
-  height: 400px;
-  margin: 100px;
-  padding: 20px;
-  position: relative;
-}
-
-.shadowed::after {
-  border-radius: 0 0 300px 300px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
-  content: '';
-  display: block;
-  height: 350px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: -1;
-}
-
 body {
-  object-fit: cover;
-  /* background: rgb(162, 32, 32);  */
+  background-color: #71717a;
   font-family: "Roboto", sans-serif;
-  text-align: center;
-  padding: 10px;
-  overflow: scroll;
-
+  width: 100dvw;
+  display: flex;
+  margin: auto;
+  overflow: auto;
+  scroll-snap-type: x, mandatory;
+  scroll-behavior: smooth;
+  box-shadow: 0 1.2rem 3rem -0.7rem rgb(25, 22, 22, 0.5);
+  animation: slider 16s infinite;
+}
 
 .landing_movie {
-  background-image: url("https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"); 
+  border: 2px solid red;
+  width: 100%;
+  background-image: url("https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg");
   background-size: cover;
   text-align: center;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 100%;
+  transition: all ease;
+}
+
+.slider {
+  scroll-snap-align: start;
+  object-fit: cover;
 }
 .movie_name {
   font-size: 1.2rem;
@@ -70,7 +51,6 @@ body {
   font-size: 0.6rem;
   width: 90%;
   gap: 15px;
-  margin: 10px 0px;
 }
 h4.active {
   color: rgb(251, 246, 246);
@@ -86,23 +66,17 @@ h4.active {
   align-content: center;
 }
 
-.btn_watch {
-  background-color: aqua;
-  border: none;
-  border-radius: 19px;
-  padding: 10px 35px;
-}
-.bookmark_item {
-  font-size: 1rem;
-  padding: 10px 30px;
-}
-.span_watch {
-  font-size: 1rem;
-}
-.fa-regular,
-span {
-  padding-left: 4px;
-}
-.span_bookmark {
-  padding-left: 9px;
+@keyframes slider {
+  0% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(-100%);
+  }
+  66% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(-300%);
+  }
 }

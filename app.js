@@ -129,14 +129,18 @@ wrappperDivEl.forEach((el) => {
 // click wrapper div to = MOVIE //
 const movie_page = function () {
   const movie_pageEl = document.querySelector(".movie_page");
-  const landing_MovieEl = document.querySelector(".landing_movie");
+  const landing_MovieEl = document.querySelector(".movie_landing");
   const trending_divEL = document.querySelector(".trending");
   const section_TwoEl = document.querySelector(".two");
   const parentELs = document.querySelectorAll(".cover_div");
+  const single_movieTopEL = document.querySelectorAll(".single_movie_top");
   // const all_moviesEl = document.querySelector("");
   window.addEventListener("DOMContentLoaded", function () {
     parentELs.forEach((el) => {
       el.addEventListener("click", function (event) {
+        single_movieTopEL.forEach((el) => {
+          el.classList.toggle("animation_on");
+        });
         const markup = `<div class="wrapper-movie ">
         <div class="single_movie">
           <div class="stars">
@@ -196,6 +200,7 @@ const movie_page = function () {
            </div>
        </div>
 `;
+
         section_TwoEl.innerHTML = "";
         navbarEL.classList.toggle("sticky_movie");
 
@@ -228,6 +233,37 @@ const movie_page = function () {
               </div>`;
           markup_array.push(markup);
         }
+
+        const footerEl = `    <footer class="section_three">
+        <div class="logo_name onfocus">
+          <h4 class="footer_logo">Movie<span>Hub</span></h4>
+        </div>
+        <div class="footer_wrapper">
+          <ul class="footer_links">
+            <li class="footer_link"><a href="#">Movies</a></li>
+            <li class="footer_link"><a href="#">TV_Shows</a></li>
+            <li class="footer_link"><a href="#">A-Z List</a></li>
+            <li class="footer_link"><a href="#">Recently Updated</a></li>
+            <li class="footer_link"><a href="#">About</a></li>
+            <li class="footer_link"><a href="#">Contact Me</a></li>
+          </ul>
+        </div>
+        <div class="footer_divider"></div>
+        <h6 class="footer_paragraph">
+          Thank you for visiting MovieHub, your ultimate destination for all
+          things cinema ! I strive to bring you the latest updates, reviews and
+          information about the most captivating films from around the world.
+          Wheather you're a decicated cinephile or simply enjoy a good movie. So
+          sit back grab your popcorn, and let me take you to the journey of the
+          silver screen.
+        </h6>
+        <h6 class="disclaimer">
+          This website does not store any files on the server, I only link it to
+          the media which is hosted on a 3rd party service
+        </h6>
+        <h6 class="end">sana @2023 All rights reserved</h6>
+      </footer>`;
+        markup_array.push(footerEl);
         const markup_recommended = markup_array.join("");
         const top_moviesEL = document.querySelector(".top_movies_div");
         top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
