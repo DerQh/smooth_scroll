@@ -1,3 +1,16 @@
+// VARIABLES //
+const url =
+  "https://api.themoviedb.org/3/movie/550?api_key=fe06dea7adb7b94ebb81f9d0294ebddc";
+const url2 =
+  "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=fe06dea7adb7b94ebb81f9d0294ebddc&page=1";
+
+const MOVIE_DB_API_KEY = "1c71ee163e25b728eb804e977142d48f";
+const API_KEY_NEW = "fe06dea7adb7b94ebb81f9d0294ebddc";
+const MOVIE_DB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie";
+const MOVIE_DB_INFO_URL = "https://api.themoviedb.org/3/movie";
+const MOVIE_DB_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+
+// DOM ELEMENTS
 const section_OneEl = document.querySelector(".one");
 const navbarEL = document.querySelector(".navbar");
 const wrappperDivEl = document.getElementsByClassName("wrapper_div");
@@ -29,19 +42,31 @@ const single_movieTopEL = document.getElementsByClassName("single_movie_top");
 const wrapperDivEl = document.querySelectorAll(".wrapper_div");
 
 let data;
+let id;
 
 //---------- FETCH DATA----- //
 
-async function data(url) {
+async function main_data(url) {
   try {
     let response = await fetch(url);
     response = await response.json();
-    data = response;
     return response;
   } catch (err) {
     console.log(err);
   }
 }
+
+// main_data(url2).then(function (resp) {
+//   data = resp;
+//   console.log(data.results);
+//   localStorage.setItem("movies", JSON.stringify(data.results));
+// });
+
+function getdaatLocal() {
+  data = JSON.parse(localStorage.getItem("movies"));
+}
+
+getdaatLocal();
 
 function scroll_naavbar() {
   window.onscroll = function () {
@@ -139,6 +164,12 @@ function renderMovie_straignt() {
     el.classList.remove("animation_on");
   });
 
+  let [id_array] = data.filter((dat) => dat.id == id);
+  console.log(id, id_array);
+  // let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
+
+  let poster_link = `https://image.tmdb.org/t/p/w500${id_array.poster_path}`;
+
   menuDIvEl.innerHTML = "";
   const singleMovie = `<div class="single_movie_top">
         <!-- HOmePage Landing Section  -->
@@ -157,7 +188,7 @@ function renderMovie_straignt() {
       </div>`;
   menuDIvEl.insertAdjacentHTML("afterbegin", singleMovie);
 
-  const markup = `<div class="wrapper-movie ">
+  const markup = `<div class="wrapper-movie" style="background-image:linear-gradient(rgba(255, 255, 255, 0), rgba(22, 22, 22, 1)), url('${poster_link}')">
         <div class="single_movie">
           <div class="stars">
             <div class="ratings_stars">
@@ -168,26 +199,25 @@ function renderMovie_straignt() {
               <i class="fa-regular fa-star fa-lg"></i>
             </div>
             <div class="review">
-              <p>6.6 0f 10(227 reviews)</p>
+              <p>${id_array.vote_average} 0f 10(${id_array.vote_count}  reviews)</p>
             </div>
           </div>
 
           <div class="movie-description">
-            <h4 class="movie_title">The Professor</h4>
+            <h4 class="movie_title">${id_array.title}</h4>
             <div class="inner_landing_div movies">
               <h4 class="clicked format">HD</h4>
               <h4 class="active p_guidance">PG-13</h4>
 
               <div class="rating">
                 <i class="fa-solid fa-star" style="color: #ffffff"></i>
-                <h4 class="movie_rating">7.7</h4>
+                <h4 class="movie_rating">${id_array.vote_average} </h4>
               </div>
               <h4 class="year">2023</h4>
               <h4 class="duration">114 min</h4>
             </div>
             <p class="movie_synopsis">
-              After learning about his terminal diagnosis, a college professor
-              decides to live his life to the fullest by drinking, smoking and
+              ${id_array.overview} 
             </p>
             <div class="movie_infos">
               <h5 class="movie_info">Type:</h5>
@@ -290,6 +320,7 @@ function renderMovie_straignt() {
 function renderMOviePage() {
   Array.from(parentELs).forEach((el) => {
     el.addEventListener("click", function (event) {
+      id = event.target.dataset.id;
       location.hash = "#moviename";
       renderMovie_straignt();
     });
@@ -297,8 +328,13 @@ function renderMOviePage() {
 }
 
 function renderHomeHtml() {
+  let home_movie = data.slice(0, 4);
   let landing_array = [];
-  const markup = ` <div class="single_movie_top animation_on">
+  home_movie.forEach((movie) => {
+    // console.log(movie);
+    let year = movie.release_date.slice(0, 4);
+    let bg_link = `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
+    const markup = ` <div class="single_movie_top animation_on data-id ="${movie.id}">
         <!-- HOmePage Landing Section  -->
         <section class="landing_movie">
           <!-- Clicked Movie Page -->
@@ -311,16 +347,16 @@ function renderHomeHtml() {
               />
             </div>
           </section>
-          <div class="movie_landing ">
-            <h4 class="movie_name">THE PROFESSOR</h4>
+          <div class="movie_landing" style="background-image:linear-gradient(rgba(255, 255, 255, 0), rgba(22, 22, 22, 1)), url('${bg_link}')">
+            <h4 class="movie_name">${movie.title}</h4>
             <div class="inner_landing_div">
               <h4 class="clicked format">HD</h4>
               <h4 class="active p_guidance">PG-13</h4>
               <div class="rating">
                 <i class="fa-solid fa-star" style="color: #ffffff"></i>
-                <h4 class="movie_rating">7.7</h4>
+                <h4 class="movie_rating">${movie.vote_average}</h4>
               </div>
-              <h4 class="year">2023</h4>
+              <h4 class="year">${year}</h4>
               <h4 class="duration">114 min</h4>
             </div>
 
@@ -341,9 +377,11 @@ function renderHomeHtml() {
         </section>
       </div>
     `;
-  for (x = 0; x <= 3; x++) {
     landing_array.push(markup);
-  }
+  });
+
+  // //
+
   // console.log(landing_array.length);
   menuDIvEl.innerHTML = "";
   landing_array = landing_array.join("");
@@ -364,40 +402,53 @@ function renderHomePage() {
 
   trending_divEL.classList.remove("hidden");
 
-  function moviestemplate(length, section) {
+  function moviestemplate(section) {
+    let recomended_movies = data.slice(-11, -1);
+    let latest_movies = data.slice(0, 10);
+    console.log(latest_movies);
     let movies_array = [];
     let elementHtml;
-    for (x = 0; x <= length; x++) {
-      if (section == "movies") {
-        elementHtml = `  <div class="wrapper_div">
+    let count = 0;
+
+    if (section == "movies") {
+      recomended_movies.forEach((movie) => {
+        let image_link = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        let year = movie.release_date.slice(0, 4);
+        elementHtml = `  <div class="wrapper_div ">
             <div class="image_div">
-              <div class="cover_div show_image">
+              <div class="cover_div show_image" data-id ="${movie.id}">
                 <img class="play_btn" src="./images/play-button.png" alt="" />
               </div>
               <img
                 class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
+                src="${image_link}"
                 alt=""
               />
             </div>
             <div class="movie_details">
-              <h4 class="year">2023</h4>
+              <h4 class="year">${year}</h4>
               <h4 class="genre">Movie</h4>
               <h4 class="runtime">100 min</h4>
             </div>
-            <h4 class="movie_title">The Professor</h4>
+            <h4 class="movie_title">${movie.title}</h4>
           </div>`;
         movies_array.push(elementHtml);
-      }
+      });
+    }
+
+    latest_movies.forEach((movie) => {
+      let image_link = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+      let year = movie.release_date.slice(0, 4);
       if (section == "topmovies") {
-        elementHtml = `  <div class="top_movie">
+        count++;
+        elementHtml = `  <div class="top_movie data-id ="${movie.id}">
           <div class="number_div">
-            <h4 class="number">${x + 1}</h4>
+            <h4 class="number">${count}</h4>
           </div>
           <div class="top_10">
             <div class="image_div_top">
               <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
+                src="${image_link}"
                 alt=""
                 class="top_10_image"
               />
@@ -405,16 +456,17 @@ function renderHomePage() {
             <div class="top_10_detail">
               <h6 class="top_paragraph">
                 <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
+                <span class="top_year">${year} /</span>
                 <span class="top_min">100 min</span>
               </h6>
-              <h6 class="top_title">The Professor</h6>
+              <h6 class="top_title">${movie.title}</h6>
             </div>
           </div>
         </div>`;
         movies_array.push(elementHtml);
       }
-    }
+    });
+
     // console.log(movies_array.length);
     return movies_array.join("");
   }
@@ -429,7 +481,7 @@ function renderHomePage() {
           </div>
         </div>
         <!-- Movies-Div -->
-        <div class="wrapper">${moviestemplate(5, "movies")}
+        <div class="wrapper">${moviestemplate("movies")}
         </div>
       </div>
 
@@ -444,7 +496,7 @@ function renderHomePage() {
           </div> -->
         </div>
         <!-- Movies-Div -->
-        <div class="wrapper">${moviestemplate(5, "movies")}
+        <div class="wrapper">${moviestemplate("movies")}
         </div>
       </div>
 
@@ -461,7 +513,7 @@ function renderHomePage() {
           </div>
         </div>
         <!-- top movies list -->
-        ${moviestemplate(9, "topmovies")}
+        ${moviestemplate("topmovies")}
       </div>
 
       <!-- footer -->
