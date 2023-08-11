@@ -25,23 +25,10 @@ const landing_MovieEl = document.querySelector(".movie_landing");
 const trending_divEL = document.querySelector(".trending");
 let section_TwoEl = document.querySelector(".two");
 const parentELs = document.getElementsByClassName("cover_div");
-const single_movieTopEL = document.getElementsByClassName("single_movie_top");
+const single_movieTopEL = document.querySelectorAll(".single_movie_top");
 const wrapperDivEl = document.querySelectorAll(".wrapper_div");
 
-let data;
-
-//---------- FETCH DATA----- //
-
-async function data(url) {
-  try {
-    let response = await fetch(url);
-    response = await response.json();
-    data = response;
-    return response;
-  } catch (err) {
-    console.log(err);
-  }
-}
+let data = [];
 
 function scroll_naavbar() {
   window.onscroll = function () {
@@ -135,28 +122,9 @@ function toggelMenu() {
 }
 
 function renderMovie_straignt() {
-  Array.from(single_movieTopEL).forEach((el) => {
+  single_movieTopEL.forEach((el) => {
     el.classList.remove("animation_on");
   });
-
-  menuDIvEl.innerHTML = "";
-  const singleMovie = `<div class="single_movie_top">
-        <!-- HOmePage Landing Section  -->
-        <section class="landing_movie">
-          <!-- Clicked Movie Page -->
-          <section class="movie_page ">
-            <div class="play_btn_div">
-              <img
-                class="movie_play_btn"
-                src="./images/play-button-2.png"
-                alt=""
-              />
-            </div>
-          </section>
-        </section>
-      </div>`;
-  menuDIvEl.insertAdjacentHTML("afterbegin", singleMovie);
-
   const markup = `<div class="wrapper-movie ">
         <div class="single_movie">
           <div class="stars">
@@ -283,7 +251,9 @@ function renderMovie_straignt() {
   const markup_recommended = markup_array.join("");
   const top_moviesEL = document.querySelector(".top_movies_div");
   top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
+  landing_MovieEl.classList.add("hidden");
   trending_divEL.classList.add("hidden");
+  movie_pageEl.classList.remove("hidden");
 }
 
 // Render MOvie Page //
@@ -298,56 +268,60 @@ function renderMOviePage() {
 
 function renderHomeHtml() {
   let landing_array = [];
-  const markup = ` <div class="single_movie_top animation_on">
+  const markup = ` <div class="single_movie_top ">
         <!-- HOmePage Landing Section  -->
         <section class="landing_movie">
           <!-- Clicked Movie Page -->
-          <section class="movie_page hidden">
-            <div class="play_btn_div">
-              <img
-                class="movie_play_btn"
-                src="./images/play-button-2.png"
-                alt=""
-              />
-            </div>
-          </section>
+         
           <div class="movie_landing ">
-            <h4 class="movie_name">THE PROFESSOR</h4>
-            <div class="inner_landing_div">
-              <h4 class="clicked format">HD</h4>
-              <h4 class="active p_guidance">PG-13</h4>
-              <div class="rating">
-                <i class="fa-solid fa-star" style="color: #ffffff"></i>
-                <h4 class="movie_rating">7.7</h4>
+
+            <section class="movie_page ">
+               <div class="play_btn_div ">
+               <img
+                  class="movie_play_btn"
+                  src="./images/play-button-2.png"
+                  alt=""
+               />
+                </div>
+             </section>
+
+            <div class="landing_movie-innerDiv hidden">
+              <h4 class="movie_name">THE PROFESSOR</h4>
+              <div class="inner_landing_div">
+                <h4 class="clicked format">HD</h4>
+                <h4 class="active p_guidance">PG-13</h4>
+                <div class="rating">
+                  <i class="fa-solid fa-star" style="color: #ffffff"></i>
+                  <h4 class="movie_rating">7.7</h4>
+                </div>
+                <h4 class="year">2023</h4>
+                <h4 class="duration">114 min</h4>
               </div>
-              <h4 class="year">2023</h4>
-              <h4 class="duration">114 min</h4>
+              <div class="watch_bookmark">
+                <button class="btn_watch">
+                  <i
+                    class="fa-regular fa-circle-play fa-xl"
+                    style="color: #000000"
+                  ></i>
+                  <span class="span_watch">Watch Now</span>
+                </button>
+                <h4 class="bookmark_item">
+                  <i class="fa-regular fa-bookmark"></i
+                  ><span class="span_bookmark">Bookmark</span>
+                </h4>
+              </div>
             </div>
 
-            <div class="watch_bookmark">
-              <button class="btn_watch">
-                <i
-                  class="fa-regular fa-circle-play fa-xl"
-                  style="color: #000000"
-                ></i>
-                <span class="span_watch">Watch Now</span>
-              </button>
-              <h4 class="bookmark_item">
-                <i class="fa-regular fa-bookmark"></i
-                ><span class="span_bookmark">Bookmark</span>
-              </h4>
-            </div>
+
           </div>
         </section>
-      </div>
-    `;
+      </div>`;
   for (x = 0; x <= 3; x++) {
     landing_array.push(markup);
   }
-  // console.log(landing_array.length);
   menuDIvEl.innerHTML = "";
   landing_array = landing_array.join("");
-  menuDIvEl.insertAdjacentHTML("afterbegin", landing_array);
+  menuDIvEl.insertAdjacentHTML("afterbegin", markup);
 }
 
 // render Homepage //
@@ -355,14 +329,16 @@ function renderHomePage() {
   // render landig page //
   renderHomeHtml();
   location.hash = "home";
-  Array.from(single_movieTopEL).forEach((el) => {
+  single_movieTopEL.forEach((el) => {
     el.classList.add("animation_on");
   });
   section_TwoEl.innerHTML = "";
   section_OneEl.classList.remove("sticky");
   navbarEL.classList.remove("sticky_movie");
 
+  landing_MovieEl.classList.remove("hidden");
   trending_divEL.classList.remove("hidden");
+  movie_pageEl.classList.add("hidden");
 
   function moviestemplate(length, section) {
     let movies_array = [];
@@ -415,7 +391,7 @@ function renderHomePage() {
         movies_array.push(elementHtml);
       }
     }
-    // console.log(movies_array.length);
+    console.log(movies_array.length);
     return movies_array.join("");
   }
 
@@ -561,7 +537,6 @@ window.onbeforeunload = function () {
   window.scrollTo(0, 0);
 };
 // Event Listiner//
-
 function init() {
   renderHomePage();
   hash_Change();

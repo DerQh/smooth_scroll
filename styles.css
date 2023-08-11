@@ -210,8 +210,6 @@ body {
 .movie_page {
   width: 100%;
   height: 35dvh;
-  /* border: 1px solid red; */
-  margin-top: 10%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -443,6 +441,13 @@ section.one {
   padding: 9px 9px;
   background-color: rgb(25, 22, 22, 0.1);
   z-index: 999;
+  border: 2ps solid red;
+}
+section.sec-one-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 2ps solid red;
 }
 
 .fa-arrow-right {
@@ -462,6 +467,7 @@ section.one {
   justify-content: space-between;
   align-items: center;
   height: 30px;
+  /* background-color: rgba(25, 22, 22); */
   /* padding: 0px 2px; */
 }
 
@@ -812,7 +818,7 @@ section.two {
 .last_footer {
   /* background-color: red; */
   margin-top: 60px;
-  padding-top: 50px;
+  padding-top: 70px;
   position: absolute;
 }
 .number_div {
@@ -977,11 +983,7 @@ p {
 /* footer */
 footer {
   font-size: 10px;
-  /* background-color: red; */
-  /* overflow: hidden; */
-  /* margin-bottom: 10px; */
-  /* padding: 10px 0px; */
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(25, 22, 22, 0.1);
 }
 .footer_logo {
   font-size: 1.5rem;
