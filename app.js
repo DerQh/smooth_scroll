@@ -52,17 +52,17 @@ async function main_data(url) {
     response = await response.json();
     return response;
   } catch (err) {
-    console.log(err);
+    console.log(err, "Error fetching data");
   }
 }
 
 // main_data(url2).then(function (resp) {
-//   data = resp;
+//   data = resp.results;
 //   console.log(data.results);
-//   localStorage.setItem("movies", JSON.stringify(data.results));
+//   // localStorage.setItem("movies", JSON.stringify(data.results));
 // });
 
-function getdaatLocal() {
+async function getdaatLocal() {
   data = JSON.parse(localStorage.getItem("movies"));
 }
 
@@ -165,10 +165,11 @@ function renderMovie_straignt() {
   });
 
   let [id_array] = data.filter((dat) => dat.id == id);
-  console.log(id, id_array);
-  // let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
-
+  console.log(id, id_array, data);
+  let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
   let poster_link = `https://image.tmdb.org/t/p/w500${id_array.poster_path}`;
+  backdrop_link;
+  poster_link;
 
   menuDIvEl.innerHTML = "";
   const singleMovie = `<div class="single_movie_top">
@@ -321,6 +322,7 @@ function renderMOviePage() {
   Array.from(parentELs).forEach((el) => {
     el.addEventListener("click", function (event) {
       id = event.target.dataset.id;
+      console.log(event.target.dataset.id, id);
       location.hash = "#moviename";
       renderMovie_straignt();
     });
@@ -328,6 +330,7 @@ function renderMOviePage() {
 }
 
 function renderHomeHtml() {
+  console.log();
   let home_movie = data.slice(0, 4);
   let landing_array = [];
   home_movie.forEach((movie) => {
