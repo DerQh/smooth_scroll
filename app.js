@@ -168,15 +168,13 @@ function renderMovie_straignt() {
   console.log(id, id_array, data);
   let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
   let poster_link = `https://image.tmdb.org/t/p/w500${id_array.poster_path}`;
-  backdrop_link;
-  poster_link;
 
   menuDIvEl.innerHTML = "";
   const singleMovie = `<div class="single_movie_top">
         <!-- HOmePage Landing Section  -->
         <section class="landing_movie">
           <!-- Clicked Movie Page -->
-          <section class="movie_page ">
+          <section class="movie_page " style="background-image:linear-gradient(rgba(255, 255, 255, 0), rgba(22, 22, 22, 1)), url('${backdrop_link}')">
             <div class="play_btn_div">
               <img
                 class="movie_play_btn"
