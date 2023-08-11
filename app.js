@@ -186,10 +186,11 @@ function renderMovie_straignt() {
         `;
 
   section_TwoEl.innerHTML = "";
-  section_OneEl.classList.add("sticky");
-  landing_MovieEl.classList.add("hidden");
-  trending_divEL.classList.add("hidden");
-  movie_pageEl.classList.remove("hidden");
+  // section_OneEl.classList.add("sticky");
+  //  section_OneEl.classList.remove("sticky");
+  //  navbarEL.classList.remove("sticky_movie");
+  // section_OneEl.classList.add("sticky_movie");
+
   section_TwoEl.insertAdjacentHTML("afterbegin", markup);
   // create the remomended section //
   let markup_array = [];
@@ -216,7 +217,7 @@ function renderMovie_straignt() {
     markup_array.push(markup);
   }
 
-  const footerEl = `    <footer class="section_three">
+  const footerEl = ` <footer class="section_three last_footer">
         <div class="logo_name onfocus">
           <h4 class="footer_logo">Movie<span>Hub</span></h4>
         </div>
@@ -249,6 +250,9 @@ function renderMovie_straignt() {
   const markup_recommended = markup_array.join("");
   const top_moviesEL = document.querySelector(".top_movies_div");
   top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
+  landing_MovieEl.classList.add("hidden");
+  trending_divEL.classList.add("hidden");
+  movie_pageEl.classList.remove("hidden");
 }
 
 // Render MOvie Page //
@@ -263,6 +267,7 @@ function renderMOviePage() {
 
 // render Homepage //
 function renderHomePage() {
+  location.hash = "home";
   single_movieTopEL.forEach((el) => {
     el.classList.add("animation_on");
   });
@@ -274,6 +279,61 @@ function renderHomePage() {
   trending_divEL.classList.remove("hidden");
   movie_pageEl.classList.add("hidden");
 
+  function moviestemplate(length, section) {
+    let movies_array = [];
+    let elementHtml;
+    for (x = 0; x <= length; x++) {
+      if (section == "movies") {
+        elementHtml = `  <div class="wrapper_div">
+            <div class="image_div">
+              <div class="cover_div show_image">
+                <img class="play_btn" src="./images/play-button.png" alt="" />
+              </div>
+              <img
+                class="image_movie"
+                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
+                alt=""
+              />
+            </div>
+            <div class="movie_details">
+              <h4 class="year">2023</h4>
+              <h4 class="genre">Movie</h4>
+              <h4 class="runtime">100 min</h4>
+            </div>
+            <h4 class="movie_title">The Professor</h4>
+          </div>`;
+        movies_array.push(elementHtml);
+      }
+      if (section == "topmovies") {
+        elementHtml = `  <div class="top_movie">
+          <div class="number_div">
+            <h4 class="number">${x + 1}</h4>
+          </div>
+          <div class="top_10">
+            <div class="image_div_top">
+              <img
+                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
+                alt=""
+                class="top_10_image"
+              />
+            </div>
+            <div class="top_10_detail">
+              <h6 class="top_paragraph">
+                <span class="top_genre">MOVIE /</span>
+                <span class="top_year">2023 /</span>
+                <span class="top_min">100 min</span>
+              </h6>
+              <h6 class="top_title">The Professor</h6>
+            </div>
+          </div>
+        </div>`;
+        movies_array.push(elementHtml);
+      }
+    }
+    console.log(movies_array.length);
+    return movies_array.join("");
+  }
+
   const markup = `  <div class="all-movies-div">
         <!-- Menu -->
         <div class="menu_recomende">
@@ -284,156 +344,7 @@ function renderHomePage() {
           </div>
         </div>
         <!-- Movies-Div -->
-        <div class="wrapper">
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
-
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
-
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
-
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
-
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
-
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
+        <div class="wrapper">${moviestemplate(5, "movies")}
         </div>
       </div>
 
@@ -448,62 +359,7 @@ function renderHomePage() {
           </div> -->
         </div>
         <!-- Movies-Div -->
-        <div class="wrapper">
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
-
-          <div class="wrapper_div">
-            <div class="image_div">
-              <div class="cover_div show_image">
-                <img class="play_btn" src="./images/play-button.png" alt="" />
-              </div>
-              <img
-                class="image_movie"
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-              />
-            </div>
-            <div class="movie_details">
-              <h4 class="year">2023</h4>
-              <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
-            </div>
-            <h4 class="movie_title">The Professor</h4>
-          </div>
+        <div class="wrapper">${moviestemplate(5, "movies")}
         </div>
       </div>
 
@@ -520,227 +376,7 @@ function renderHomePage() {
           </div>
         </div>
         <!-- top movies list -->
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">1</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
-        <!-- 2 -->
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">2</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">3</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">4</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">5</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">6</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">7</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">8</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">9</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
-        <div class="top_movie">
-          <div class="number_div">
-            <h4 class="number">10</h4>
-          </div>
-          <div class="top_10">
-            <div class="image_div_top">
-              <img
-                src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
-                alt=""
-                class="top_10_image"
-              />
-            </div>
-            <div class="top_10_detail">
-              <h6 class="top_paragraph">
-                <span class="top_genre">MOVIE /</span>
-                <span class="top_year">2023 /</span>
-                <span class="top_min">100 min</span>
-              </h6>
-              <h6 class="top_title">The Professor</h6>
-            </div>
-          </div>
-        </div>
+        ${moviestemplate(9, "topmovies")}
       </div>
 
       <!-- footer -->
@@ -835,9 +471,12 @@ function movie_hover() {
   });
 }
 
+// ÷windows load /
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+};
 // Event Listiner//
 function init() {
-  location.hash = "home";
   renderHomePage();
   hash_Change();
   toggelMenu();
@@ -846,5 +485,4 @@ function init() {
   observeDivs();
   movie_page();
 }
-
 init();
