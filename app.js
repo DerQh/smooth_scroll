@@ -258,15 +258,17 @@ function toggelMenu() {
   });
 }
 
-async function renderMovie_straignt(id) {
+async function renderMovie_straignt(id_film) {
   try {
-    if (!id) throw new Error("There is no Movie Id");
+    
+    location.hash = "#moviename";
     Array.from(single_movieTopEL).forEach((el) => {
       el.classList.remove("animation_on");
     });
-    api.getSingle(id).then((singleData) => {
+    api.getSingle(id_film).then((singleData) => {
       // console.log(singleData);
-      api.getCredits(id).then((cast) => {
+      console.log(id_film);
+      api.getCredits(id_film).then((cast) => {
         // console.log(cast);
         let countries = singleData.production_countries.map((dat) => dat.name);
         let genres = singleData.genres.map((dat) => dat.name);
@@ -443,8 +445,9 @@ async function renderMovie_straignt(id) {
 async function renderMOviePage() {
   Array.from(parentELs).forEach((el) => {
     el.addEventListener("click", function (event) {
-      id = el.dataset.id;
-      renderMovie_straignt(id);
+      const movie_id = el.dataset.id;
+      console.log(id);
+      renderMovie_straignt(movie_id);
     });
   });
 }
@@ -499,12 +502,12 @@ async function renderHomeHtml(home_data) {
             </div>
 
             <div class="watch_bookmark">
-              <button class="btn_watch">
+              <button class="btn_watch" data-id ="${id}">
                 <i
                   class="fa-regular fa-circle-play fa-xl"
                   style="color: #000000"
                 ></i>
-                <span class="span_watch"  data-id ="${id}" >Watch Now</span>
+                <span class="span_watch" >Watch Now</span>
               </button>
               <h4 class="bookmark_item">
                 <i class="fa-regular fa-bookmark"></i
@@ -533,11 +536,10 @@ async function renderHomeHtml(home_data) {
       // console.log(watchBtns.length);
       Array.from(watchBtns).forEach((el) => {
         el.addEventListener("click", function (event) {
-          id = event.target.dataset.id;
-          // location.hash = "#id";
+          const movie_id = el.dataset.id;
+          console.log(id);
           // location.hash = `#${}`;
-          renderMovie_straignt(id);
-          console.log(event.target, id);
+          renderMovie_straignt(movie_id);
         });
       });
 
@@ -553,6 +555,7 @@ async function renderHomePage(data_Array) {
   try {
     data_Array = data;
     if (!data_Array) throw new Error("No data for the HomaPage");
+    location.hash = "#home";
     // render landig page //
     renderHomeHtml(data_Array);
     // location.hash = "home";
@@ -720,8 +723,9 @@ async function renderHomePage(data_Array) {
     // console.log(parentELs.length);
     Array.from(parentELs).forEach((el) => {
       el.addEventListener("click", function (event) {
-        id = el.dataset.id;
-        renderMovie_straignt(id);
+        const movie_id = el.dataset.id;
+        console.log(movie_id);
+        renderMovie_straignt(movie_id);
       });
     });
   } catch (err) {
@@ -743,11 +747,12 @@ function movie_page() {
 function hash_Change() {
   window.addEventListener("hashchange", function (event) {
     console.log("hash changeded to: ", this.location.hash);
-    if (this.location.hash == "#moviename") {
+    if (location.hash == "#moviename") {
       // render movie page//
       renderMovie_straignt();
+      if (id) console.log(true);
     }
-    if (this.location.hash == "#home") {
+    if (location.hash == "#home") {
       // render home page
       renderHomePage();
       movie_hover();
@@ -894,12 +899,12 @@ class FetchdataAPI {
 // data handler //
 async function init() {
   renderHomePage();
-  // hash_Change();
+  movie_page();
+  hash_Change();
   toggelMenu();
   movie_hover();
   scroll_naavbar();
   observeDivs();
-  movie_page();
 }
 
 // INstantiante the class //
