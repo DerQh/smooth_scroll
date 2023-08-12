@@ -1,3 +1,5 @@
+// const { async } = require("regenerator-runtime");
+
 // VARIABLES //
 const url =
   "https://api.themoviedb.org/3/movie/550?api_key=fe06dea7adb7b94ebb81f9d0294ebddc";
@@ -90,7 +92,7 @@ const GENRES = [
 
 const genreurl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY_NEW}&language=en-US`;
 const showsgenre = `https://api.themoviedb.org/3/genre/tv/list?api_key=${API_KEY_NEW}&language=en-US`;
-console.log(genreurl, showsgenre);
+// console.log(genreurl, showsgenre);
 // DOM ELEMENTS
 const section_OneEl = document.querySelector(".one");
 const navbarEL = document.querySelector(".navbar");
@@ -121,52 +123,46 @@ let section_TwoEl = document.querySelector(".two");
 const parentELs = document.getElementsByClassName("cover_div");
 const single_movieTopEL = document.getElementsByClassName("single_movie_top");
 const wrapperDivEl = document.querySelectorAll(".wrapper_div");
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "June",
+  "July",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 let data;
 let id;
 
-//---------- FETCH DATA----- //
-
-async function main_data(url) {
-  try {
-    let response = await fetch(url);
-    response = await response.json();
-    return response;
-  } catch (err) {
-    console.log(err, "Error fetching data");
-  }
+// Helper Functions
+function randNum() {
+  const max = 140;
+  const min = 90;
+  const num = (Math.random() * (max - min) + min).toFixed(0);
+  return num;
 }
 
-// get cast names //
-async function main_cast() {
-  try {
-    let response = await fetch(
-      "https://api.themoviedb.org/3/discover/tv?sort_by=popularity.desc&api_key=fe06dea7adb7b94ebb81f9d0294ebddc&page=1"
-    );
-    response = await response.json();
-    data = response
-    localStorage.setItem("shows2", JSON.stringify(response.results));
-    console.log(response.results);
-  } catch (err) {
-    console.log(err);
-  }
+function Settimet(func) {
+  setTimeout(func, 2000);
 }
 
-// main_cast();
-// main_data(url2).then(function (resp) {
-//   data = resp.results;
-//   console.log(data.results);
-//   // localStorage.setItem("movies", JSON.stringify(data.results));
-// });
-
-async function getdaatLocal() {
-  data = JSON.parse(localStorage.getItem("movies"));
-  const data_shows = JSON.parse(localStorage.getItem("shows2"));
-  console.log(data_shows);
-  return data_shows;
+function changeDate(dateItem) {
+  dateItem = "2023-07-05";
+  const year = dateItem.slice(0, 4);
+  const month = +dateItem.slice(-1);
+  const date = +dateItem.slice(5, 7);
+  const dateFormat = `${months[month + 1]} ${date}, ${year}`;
+  console.log(dateFormat);
 }
 
-getdaatLocal();
+//
 
 function scroll_naavbar() {
   window.onscroll = function () {
@@ -260,17 +256,29 @@ function toggelMenu() {
 }
 
 async function renderMovie_straignt() {
-  Array.from(single_movieTopEL).forEach((el) => {
-    el.classList.remove("animation_on");
-  });
+  try {
+    Array.from(single_movieTopEL).forEach((el) => {
+      el.classList.remove("animation_on");
+    });
 
-  let [id_array] = data.filter((dat) => dat.id == id);
-  // console.log(id, id_array, data);
-  let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
-  let poster_link = `https://image.tmdb.org/t/p/w500${id_array.poster_path}`;
+    let [id_array] = data.filter((dat) => dat.id == id);
+    console.log(id);
 
-  menuDIvEl.innerHTML = "";
-  const singleMovie = `<div class="single_movie_top">
+    api.getSingle(id).then((singleData) => {
+      console.log(singleData);
+      api.getCredits(id).then((cast) => {
+        let castNames = cast.cast
+          .slice(0, 5)
+          .map((cst) => cst.name)
+          .join(", ");
+        console.log(castNames);
+      });
+    });
+    let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
+    let poster_link = `https://image.tmdb.org/t/p/w500${id_array.poster_path}`;
+
+    menuDIvEl.innerHTML = "";
+    const singleMovie = `<div class="single_movie_top">
         <!-- HOmePage Landing Section  -->
         <section class="landing_movie">
           <!-- Clicked Movie Page -->
@@ -285,9 +293,9 @@ async function renderMovie_straignt() {
           </section>
         </section>
       </div>`;
-  menuDIvEl.insertAdjacentHTML("afterbegin", singleMovie);
+    menuDIvEl.insertAdjacentHTML("afterbegin", singleMovie);
 
-  const markup = `<div class="wrapper-movie" style="background-image:linear-gradient(rgba(255, 255, 255, 0), rgba(22, 22, 22, 1)), url('${poster_link}')">
+    const markup = `<div class="wrapper-movie" style="background-image:linear-gradient(rgba(255, 255, 255, 0), rgba(22, 22, 22, 1)), url('${poster_link}')">
         <div class="single_movie">
           <div class="stars">
             <div class="ratings_stars">
@@ -298,7 +306,9 @@ async function renderMovie_straignt() {
               <i class="fa-regular fa-star fa-lg"></i>
             </div>
             <div class="review">
-              <p>${id_array.vote_average} 0f 10(${id_array.vote_count}  reviews)</p>
+              <p>${id_array.vote_average} 0f 10(${
+      id_array.vote_count
+    }  reviews)</p>
             </div>
           </div>
 
@@ -313,7 +323,7 @@ async function renderMovie_straignt() {
                 <h4 class="movie_rating">${id_array.vote_average} </h4>
               </div>
               <h4 class="year">2023</h4>
-              <h4 class="duration">114 min</h4>
+              <h4 class="duration">${randNum()} min</h4>
             </div>
             <p class="movie_synopsis">
               ${id_array.overview} 
@@ -337,8 +347,8 @@ async function renderMovie_straignt() {
             </div>
           </div>
         </div>
-      </div>
-       <div class="top_movies_div">
+        </div>
+         <div class="top_movies_div">
             <!-- Menu -->
           <div class="menu_recomende">
             <h5 class="sub_title latest">RECOMMENDED</h5>
@@ -346,29 +356,28 @@ async function renderMovie_straignt() {
        </div>
         `;
 
-  section_TwoEl.innerHTML = "";
-  section_OneEl.classList.toggle("sec-one-top");
-  trending_divEL.classList.add("hidden");
+    section_TwoEl.innerHTML = "";
+    section_OneEl.classList.toggle("sec-one-top");
+    trending_divEL.classList.add("hidden");
 
-  // section_OneEl.classList.add("sticky");
-  //  section_OneEl.classList.remove("sticky");
-  //  navbarEL.classList.remove("sticky_movie");
-  // section_OneEl.classList.add("sticky_movie");
+    // section_OneEl.classList.add("sticky");
+    //  section_OneEl.classList.remove("sticky");
+    //  navbarEL.classList.remove("sticky_movie");
+    // section_OneEl.classList.add("sticky_movie");
 
-  section_TwoEl.insertAdjacentHTML("afterbegin", markup);
-  // create the remomended section //
-  let markup_array = [];
+    section_TwoEl.insertAdjacentHTML("afterbegin", markup);
+    // create the remomended section //
+    let markup_array = [];
 
-  let recommended_Array = data.slice(0, 11);
-  console.log(recommended_Array);
+    let recommended_Array = data.slice(0, 11);
 
-  recommended_Array.forEach((arr) => {
-    let link = `https://image.tmdb.org/t/p/w500${arr.poster_path}`;
-    let year = arr.release_date.slice(0, 4);
-    // let year = arr.first_air_date.slice(0, 4);
-    // console.log(arr.first_air_date);
+    recommended_Array.forEach((arr) => {
+      let link = `https://image.tmdb.org/t/p/w500${arr.poster_path}`;
+      let year = arr.release_date.slice(0, 4);
+      // let year = arr.first_air_date.slice(0, 4);
+      // console.log(arr.first_air_date);
 
-    let markup = ` <div class="top_movie reloaded">
+      let markup = ` <div class="top_movie reloaded">
              <div class="top_10">
                 <div class="image_div_top">
                    <img
@@ -386,10 +395,10 @@ async function renderMovie_straignt() {
                    <h6 class="top_title">${arr.title}</h6>
                 </div>
               </div>`;
-    markup_array.push(markup);
-  });
+      markup_array.push(markup);
+    });
 
-  const footerEl = ` <footer class="section_three last_footer">
+    const footerEl = ` <footer class="section_three last_footer">
         <div class="logo_name onfocus">
           <h4 class="footer_logo">Movie<span>Hub</span></h4>
         </div>
@@ -418,10 +427,13 @@ async function renderMovie_straignt() {
         </h6>
         <h6 class="end">sana @2023 All rights reserved</h6>
       </footer>`;
-  markup_array.push(footerEl);
-  const markup_recommended = markup_array.join("");
-  const top_moviesEL = document.querySelector(".top_movies_div");
-  top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
+    markup_array.push(footerEl);
+    const markup_recommended = markup_array.join("");
+    const top_moviesEL = document.querySelector(".top_movies_div");
+    top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 // Render MOvie Page //
@@ -436,15 +448,30 @@ async function renderMOviePage() {
   });
 }
 
-async function renderHomeHtml() {
-  console.log();
-  let home_movie = data.slice(0, 4);
-  let landing_array = [];
-  home_movie.forEach((movie) => {
-    // console.log(movie);
-    let year = movie.release_date.slice(0, 4);
-    let bg_link = `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
-    const markup = ` <div class="single_movie_top animation_on data-id ="${movie.id}">
+async function renderHomeHtml(home_data) {
+  // get 4 movies from DATA array //
+  try {
+    if (!home_data)
+      throw new Error("Data is not there to be passed by Landing Page  ");
+    let home_movie = await home_data.slice(0, 4);
+    let runtime;
+    let genre;
+    let title, rating, year, bg_link, id;
+    let empty = [];
+    function get_array(mov) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          let single_mov = await api.getSingle(mov.id);
+          // console.log(single_mov.runtime);
+          year = single_mov.release_date.slice(0, 4);
+          runtime = single_mov.runtime;
+          genre = single_mov.genres[0].name;
+          bg_link = `https://image.tmdb.org/t/p/w500${single_mov.backdrop_path}`;
+          id = single_mov.id;
+          title = single_mov.title;
+          rating = single_mov.vote_average;
+          // console.log(runtime, genre, year, id, bg_link);
+          let markup = ` <div class="single_movie_top animation_on data-id ="${id}">
         <!-- HOmePage Landing Section  -->
         <section class="landing_movie">
           <!-- Clicked Movie Page -->
@@ -458,16 +485,16 @@ async function renderHomeHtml() {
             </div>
           </section>
           <div class="movie_landing" style="background-image:linear-gradient(rgba(25, 20, 20, 0.1), rgba(22, 22, 22, 1)), url('${bg_link}')">
-            <h4 class="movie_name">${movie.title}</h4>
+            <h4 class="movie_name">${title}</h4>
             <div class="inner_landing_div">
               <h4 class="clicked format">HD</h4>
-              <h4 class="active p_guidance">PG-13</h4>
+              <h4 class="active p_guidance">${genre}</h4>
               <div class="rating">
                 <i class="fa-solid fa-star" style="color: #ffffff"></i>
-                <h4 class="movie_rating">${movie.vote_average}</h4>
+                <h4 class="movie_rating">${rating.toFixed(1)}</h4>
               </div>
               <h4 class="year">${year}</h4>
-              <h4 class="duration">114 min</h4>
+              <h4 class="duration">${runtime} min</h4>
             </div>
 
             <div class="watch_bookmark">
@@ -485,46 +512,57 @@ async function renderHomeHtml() {
             </div>
           </div>
         </section>
-      </div>
-    `;
-    landing_array.push(markup);
-  });
+       </div>
+       `;
+          resolve(markup);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
 
-  // //
-
-  // console.log(landing_array.length);
-  menuDIvEl.innerHTML = "";
-  landing_array = landing_array.join("");
-  menuDIvEl.insertAdjacentHTML("afterbegin", landing_array);
+    Promise.all(home_movie.map(get_array)).then((fetched_data) => {
+      empty.push(fetched_data);
+      // console.log(empty);
+      menuDIvEl.innerHTML = "";
+      landingHTML = empty.join("");
+      menuDIvEl.insertAdjacentHTML("afterbegin", landingHTML);
+    });
+  } catch (err) {
+    console.error(err, "Error Retrieveing Homapage Data");
+  }
 }
 
 // render Homepage //
-async function renderHomePage() {
-  // render landig page //
-  renderHomeHtml();
-  location.hash = "home";
-  Array.from(single_movieTopEL).forEach((el) => {
-    el.classList.add("animation_on");
-  });
-  section_TwoEl.innerHTML = "";
-  section_OneEl.classList.remove("sticky");
-  navbarEL.classList.remove("sticky_movie");
+async function renderHomePage(data_Array) {
+  try {
+    data_Array = data;
+    if (!data_Array) throw new Error("No data for the HomaPage");
+    // render landig page //
+    renderHomeHtml(data_Array);
+    location.hash = "home";
+    Array.from(single_movieTopEL).forEach((el) => {
+      el.classList.add("animation_on");
+    });
+    section_TwoEl.innerHTML = "";
+    section_OneEl.classList.remove("sticky");
+    navbarEL.classList.remove("sticky_movie");
 
-  trending_divEL.classList.remove("hidden");
+    trending_divEL.classList.remove("hidden");
 
-  function moviestemplate(section) {
-    let recomended_movies = data.slice(-11, -1);
-    let latest_movies = data.slice(0, 10);
-    // console.log(latest_movies);
-    let movies_array = [];
-    let elementHtml;
-    let count = 0;
+    function moviestemplate(section) {
+      let recomended_movies = data_Array.slice(-11, -1);
+      let latest_movies = data_Array.slice(0, 10);
+      // console.log(latest_movies);
+      let movies_array = [];
+      let elementHtml;
+      let count = 0;
 
-    if (section == "movies") {
-      recomended_movies.forEach((movie) => {
-        let image_link = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-        let year = movie.release_date.slice(0, 4);
-        elementHtml = `  <div class="wrapper_div ">
+      if (section == "movies") {
+        recomended_movies.forEach((movie) => {
+          let image_link = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+          let year = movie.release_date.slice(0, 4);
+          elementHtml = `  <div class="wrapper_div ">
             <div class="image_div">
               <div class="cover_div show_image" data-id ="${movie.id}">
                 <img class="play_btn" src="./images/play-button.png" alt="" />
@@ -538,20 +576,20 @@ async function renderHomePage() {
             <div class="movie_details">
               <h4 class="year">${year}</h4>
               <h4 class="genre">Movie</h4>
-              <h4 class="runtime">100 min</h4>
+              <h4 class="runtime">${randNum()} min</h4>
             </div>
             <h4 class="movie_title">${movie.title}</h4>
           </div>`;
-        movies_array.push(elementHtml);
-      });
-    }
+          movies_array.push(elementHtml);
+        });
+      }
 
-    latest_movies.forEach((movie) => {
-      let image_link = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-      let year = movie.release_date.slice(0, 4);
-      if (section == "topmovies") {
-        count++;
-        elementHtml = `  <div class="top_movie data-id ="${movie.id}">
+      latest_movies.forEach((movie) => {
+        let image_link = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        let year = movie.release_date.slice(0, 4);
+        if (section == "topmovies") {
+          count++;
+          elementHtml = `  <div class="top_movie data-id ="${movie.id}">
           <div class="number_div">
             <h4 class="number">${count}</h4>
           </div>
@@ -567,21 +605,21 @@ async function renderHomePage() {
               <h6 class="top_paragraph">
                 <span class="top_genre">MOVIE /</span>
                 <span class="top_year">${year} /</span>
-                <span class="top_min">100 min</span>
+                <span class="top_min">${randNum()} min</span>
               </h6>
               <h6 class="top_title">${movie.title}</h6>
             </div>
           </div>
         </div>`;
-        movies_array.push(elementHtml);
-      }
-    });
+          movies_array.push(elementHtml);
+        }
+      });
 
-    // console.log(movies_array.length);
-    return movies_array.join("");
-  }
+      // console.log(movies_array.length);
+      return movies_array.join("");
+    }
 
-  const markup = `  <div class="all-movies-div">
+    const markup = `  <div class="all-movies-div">
         <!-- Menu -->
         <div class="menu_recomende">
           <h5 class="sub_title">RECOMMENDED</h5>
@@ -657,12 +695,10 @@ async function renderHomePage() {
         <h6 class="end">sana @2023 All rights reserved</h6>
       </footer>`;
 
-  section_TwoEl.insertAdjacentHTML("afterbegin", markup);
-
-  // wrapperDivEl.forEach((el) => {
-  //   // console.log(el.classList);
-  //   // el.style.opacity = 0;
-  // });
+    section_TwoEl.insertAdjacentHTML("afterbegin", markup);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 // click wrapper div to = MOVIE //
@@ -702,8 +738,8 @@ function hash_Change() {
 // hash funtion //
 function hash_func() {
   window.addEventListener("popstate", function (event) {
-    console.log(this.location.hash);
-    console.log(event);
+    // console.log(this.location.hash);
+    // console.log(event);
   });
 }
 
@@ -729,9 +765,133 @@ function movie_hover() {
 window.onbeforeunload = function () {
   window.scrollTo(0, 0);
 };
-// Event Listiner//
 
-function init() {
+class FetchdataAPI {
+  static BASE_URL = "https://api.themoviedb.org/3";
+  static POPULAR = "/movie/popular";
+
+  constructor(baseUrl) {
+    this.baseUrl = baseUrl;
+  }
+  // FETCH POPULAR MOVIES //
+
+  async getPopular() {
+    try {
+      let response = await fetch(
+        `${BASE_URL}${POPULAR}?api_key=${API_KEY_NEW}&language=en-US&page=1`
+      );
+      response = await response.json();
+      console.log(response.results);
+      data = response.results;
+      return response.results;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  async getTrending() {
+    try {
+      let response = await fetch(
+        `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY_NEW}&language=en-US&page=1`
+      );
+      response = await response.json();
+      console.log(response.results);
+      data = response.results;
+      return response.results;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  async getTVshows() {
+    try {
+      let response = await fetch(
+        `https://api.themoviedb.org/3/trending/tv/day?api_key=${API_KEY_NEW}&language=en-US&page=1`
+      );
+      response = await response.json();
+      console.log(response.results);
+      return response.results;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async printData(dataArray) {
+    try {
+      if (dataArray) throw new Error("There in no data ");
+      console.log("data will be printed");
+      console.log(dataArray);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  async getTOPrated() {
+    try {
+      let response = await fetch(
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY_NEW}&language=en-US&page=1`
+      );
+      response = await response.json();
+      console.log(response.results);
+      data = response.results;
+
+      return response.results;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  async getCredits(movie_Id) {
+    try {
+      let response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movie_Id}/credits?api_key=${API_KEY_NEW}&language=en-US&page=1`
+      );
+
+      response = await response.json();
+      console.log(response);
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  async getSingle(movie_Id) {
+    try {
+      let response = await fetch(
+        `https://api.themoviedb.org/3/movie/${movie_Id}?api_key=${API_KEY_NEW}&language=en-US&page=1`
+      );
+      response = await response.json();
+      // console.log(response);
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  async getLocal() {
+    let response = await JSON.parse(localStorage.getItem("movies"));
+    data = response;
+    return data;
+  }
+}
+
+// INstantiante the class //
+const api = new FetchdataAPI();
+
+api.getTOPrated().then((dataARRay) => {
+  // console.log(dataARRay);
+  // api.getSingle("569094").then((singleData) => {
+  //   // localStorage.setItem("single", JSON.stringify(singleData));
+  //   console.log(singleData);
+  //   api.getCredits("1006462").then((cast) => {
+  //     const castNames = cast.cast
+  //       .slice(0, 5)
+  //       .map((cst) => cst.name)
+  //       .join(", ");
+  //     console.log(castNames);
+  //   });
+  // });
+
+  // --- run all functions -- //
+  init();
+});
+
+// data handler //
+async function init() {
   renderHomePage();
   hash_Change();
   toggelMenu();
@@ -740,4 +900,3 @@ function init() {
   observeDivs();
   movie_page();
 }
-init();
