@@ -144,6 +144,7 @@ async function main_cast() {
       "https://api.themoviedb.org/3/discover/tv?sort_by=popularity.desc&api_key=fe06dea7adb7b94ebb81f9d0294ebddc&page=1"
     );
     response = await response.json();
+    data = response
     localStorage.setItem("shows2", JSON.stringify(response.results));
     console.log(response.results);
   } catch (err) {
