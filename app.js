@@ -161,6 +161,7 @@ function changeDate(dateItem) {
   const month = +dateItem.slice(-1);
   const date = +dateItem.slice(5, 7);
   const dateFormat = `${months[month + 1]} ${date}, ${year}`;
+  return dateFormat;
   console.log(dateFormat);
 }
 
@@ -259,21 +260,26 @@ function toggelMenu() {
 
 async function renderMovie_straignt() {
   try {
+    if (!id) throw new Error("There is no Movie Id");
     Array.from(single_movieTopEL).forEach((el) => {
       el.classList.remove("animation_on");
     });
-
-    let [id_array] = data.filter((dat) => dat.id == id);
-
     api.getSingle(id).then((singleData) => {
       // console.log(singleData);
       api.getCredits(id).then((cast) => {
-        let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
-        let poster_link = `https://image.tmdb.org/t/p/w500${id_array.poster_path}`;
+        // console.log(cast);
+        let countries = singleData.production_countries.map((dat) => dat.name);
+        let genres = singleData.genres.map((dat) => dat.name);
+        let markup_array = [];
+        let recommended_Array = data.slice(0, 11);
+        let backdrop_link = `https://image.tmdb.org/t/p/w500${singleData.backdrop_path}`;
+        let poster_link = `https://image.tmdb.org/t/p/w500${singleData.poster_path}`;
         let castNames = cast.cast
           .slice(0, 5)
           .map((cst) => cst.name)
           .join(", ");
+        let director = cast.cast[0].character;
+        // console.log(director);
         // console.log(castNames);
 
         // ----RENDER THE HTML -
@@ -305,43 +311,42 @@ async function renderMovie_straignt() {
               <i class="fa-regular fa-star fa-lg"></i>
             </div>
             <div class="review">
-              <p>${id_array.vote_average} 0f 10(${
-          id_array.vote_count
+              <p>${singleData.vote_average} 0f 10(${
+          singleData.vote_count
         }  reviews)</p>
             </div>
           </div>
 
           <div class="movie-description">
-            <h4 class="movie_title">${id_array.title}</h4>
+            <h4 class="movie_title">${singleData.title}</h4>
             <div class="inner_landing_div movies">
               <h4 class="clicked format">HD</h4>
               <h4 class="active p_guidance">PG-13</h4>
 
               <div class="rating">
                 <i class="fa-solid fa-star" style="color: #ffffff"></i>
-                <h4 class="movie_rating">${id_array.vote_average} </h4>
+                <h4 class="movie_rating">${singleData.vote_average} </h4>
               </div>
               <h4 class="year">2023</h4>
               <h4 class="duration">${randNum()} min</h4>
             </div>
             <p class="movie_synopsis">
-              ${id_array.overview} 
+              ${singleData.overview} 
             </p>
             <div class="movie_infos">
               <h5 class="movie_info">Type:</h5>
               <h5 class="movie_info">Movie</h5>
               <h5 class="movie_info">Country:</h5>
-              <h5 class="movie_info">United States</h5>
+              <h5 class="movie_info">${countries.join(", ")}</h5>
               <h5 class="movie_info">Genre:</h5>
-              <h5 class="movie_info">Drama, Comedy, Family</h5>
+              <h5 class="movie_info">${genres.join(" ")}</h5>
               <h5 class="movie_info">Release Date:</h5>
-              <h5 class="movie_info">Jul 24, 2024</h5>
+              <h5 class="movie_info">${changeDate(cast.release_date)}</h5>
               <h5 class="movie_info">Director:</h5>
-              <h5 class="movie_info">Johnny Depp</h5>
+              <h5 class="movie_info">${director}</h5>
               <h5 class="movie_info">Cast:</h5>
               <h5 class="movie_info">
-                Johnny Depp, Rosemarie DeWitt, Danny Huston, Zoey Deutch, Ron
-                Livingstone, Linda Emond
+                ${castNames}
               </h5>
             </div>
           </div>
@@ -389,8 +394,6 @@ async function renderMovie_straignt() {
         section_TwoEl.insertAdjacentHTML("afterbegin", markup);
 
         // create the remomended section //
-        let markup_array = [];
-        let recommended_Array = data.slice(0, 11);
 
         const footerEl = ` <footer class="section_three last_footer">
         <div class="logo_name onfocus">
@@ -530,7 +533,7 @@ async function renderHomeHtml(home_data) {
       menuDIvEl.insertAdjacentHTML("afterbegin", landingHTML);
 
       // -----LISTEN TO CLICK ON THE WATCH BUTTONS AFTER THEY HAVE BEEN CREATED  ----//
-      console.log(watchBtns.length);
+      // console.log(watchBtns.length);
       Array.from(watchBtns).forEach((el) => {
         el.addEventListener("click", function (event) {
           console.log(event.target);
@@ -709,7 +712,7 @@ async function renderHomePage(data_Array) {
     section_TwoEl.insertAdjacentHTML("afterbegin", markup);
 
     // -----LISTEN TO A CLICK ON THE MOVIE AFTER THEY HAVE BEEN CREATED ----//
-    console.log(parentELs.length);
+    // console.log(parentELs.length);
     Array.from(parentELs).forEach((el) => {
       el.addEventListener("click", function (event) {
         id = el.dataset.id;
@@ -887,22 +890,7 @@ class FetchdataAPI {
 const api = new FetchdataAPI();
 
 api.getTOPrated().then((dataARRay) => {
-  console.log(image_divEl);
-  //  Array.from(image_divEl).forEach(function (imageEl) {
-  //   console.log(true);
-  //  });
   // console.log(dataARRay);
-  // api.getSingle("569094").then((singleData) => {
-  //   // localStorage.setItem("single", JSON.stringify(singleData));
-  //   console.log(singleData);
-  //   api.getCredits("1006462").then((cast) => {
-  //     const castNames = cast.cast
-  //       .slice(0, 5)
-  //       .map((cst) => cst.name)
-  //       .join(", ");
-  //     console.log(castNames);
-  //   });
-  // });
 
   // --- run all functions -- //
   init();
