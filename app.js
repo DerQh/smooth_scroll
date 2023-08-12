@@ -9,7 +9,88 @@ const API_KEY_NEW = "fe06dea7adb7b94ebb81f9d0294ebddc";
 const MOVIE_DB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie";
 const MOVIE_DB_INFO_URL = "https://api.themoviedb.org/3/movie";
 const MOVIE_DB_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+const GENRES = [
+  {
+    id: 28,
+    name: "Action",
+  },
+  {
+    id: 12,
+    name: "Adventure",
+  },
+  {
+    id: 16,
+    name: "Animation",
+  },
+  {
+    id: 35,
+    name: "Comedy",
+  },
+  {
+    id: 80,
+    name: "Crime",
+  },
+  {
+    id: 99,
+    name: "Documentary",
+  },
+  {
+    id: 18,
+    name: "Drama",
+  },
+  {
+    id: 10751,
+    name: "Family",
+  },
+  {
+    id: 14,
+    name: "Fantasy",
+  },
+  {
+    id: 36,
+    name: "History",
+  },
+  {
+    id: 27,
+    name: "Horror",
+  },
+  {
+    id: 10402,
+    name: "Music",
+  },
+  {
+    id: 9648,
+    name: "Mystery",
+  },
+  {
+    id: 10749,
+    name: "Romance",
+  },
+  {
+    id: 878,
+    name: "Science Fiction",
+  },
+  {
+    id: 10770,
+    name: "TV Movie",
+  },
+  {
+    id: 53,
+    name: "Thriller",
+  },
+  {
+    id: 10752,
+    name: "War",
+  },
+  {
+    id: 37,
+    name: "Western",
+  },
+];
 
+const genreurl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY_NEW}&language=en-US`;
+const showsgenre = `https://api.themoviedb.org/3/genre/tv/list?api_key=${API_KEY_NEW}&language=en-US`;
+console.log(genreurl, showsgenre);
 // DOM ELEMENTS
 const section_OneEl = document.querySelector(".one");
 const navbarEL = document.querySelector(".navbar");
@@ -56,6 +137,21 @@ async function main_data(url) {
   }
 }
 
+// get cast names //
+async function main_cast() {
+  try {
+    let response = await fetch(
+      "https://api.themoviedb.org/3/discover/tv?sort_by=popularity.desc&api_key=fe06dea7adb7b94ebb81f9d0294ebddc&page=1"
+    );
+    response = await response.json();
+    localStorage.setItem("shows2", JSON.stringify(response.results));
+    console.log(response.results);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// main_cast();
 // main_data(url2).then(function (resp) {
 //   data = resp.results;
 //   console.log(data.results);
@@ -64,6 +160,9 @@ async function main_data(url) {
 
 async function getdaatLocal() {
   data = JSON.parse(localStorage.getItem("movies"));
+  const data_shows = JSON.parse(localStorage.getItem("shows2"));
+  console.log(data_shows);
+  return data_shows;
 }
 
 getdaatLocal();
@@ -159,13 +258,13 @@ function toggelMenu() {
   });
 }
 
-function renderMovie_straignt() {
+async function renderMovie_straignt() {
   Array.from(single_movieTopEL).forEach((el) => {
     el.classList.remove("animation_on");
   });
 
   let [id_array] = data.filter((dat) => dat.id == id);
-  console.log(id, id_array, data);
+  // console.log(id, id_array, data);
   let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
   let poster_link = `https://image.tmdb.org/t/p/w500${id_array.poster_path}`;
 
@@ -226,7 +325,7 @@ function renderMovie_straignt() {
               <h5 class="movie_info">Genre:</h5>
               <h5 class="movie_info">Drama, Comedy, Family</h5>
               <h5 class="movie_info">Release Date:</h5>
-              <h5 class="movie_info">jul 24, 2024</h5>
+              <h5 class="movie_info">Jul 24, 2024</h5>
               <h5 class="movie_info">Director:</h5>
               <h5 class="movie_info">Johnny Depp</h5>
               <h5 class="movie_info">Cast:</h5>
@@ -248,6 +347,8 @@ function renderMovie_straignt() {
 
   section_TwoEl.innerHTML = "";
   section_OneEl.classList.toggle("sec-one-top");
+  trending_divEL.classList.add("hidden");
+
   // section_OneEl.classList.add("sticky");
   //  section_OneEl.classList.remove("sticky");
   //  navbarEL.classList.remove("sticky_movie");
@@ -257,12 +358,20 @@ function renderMovie_straignt() {
   // create the remomended section //
   let markup_array = [];
 
-  for (x = 0; x <= 9; x++) {
+  let recommended_Array = data.slice(0, 11);
+  console.log(recommended_Array);
+
+  recommended_Array.forEach((arr) => {
+    let link = `https://image.tmdb.org/t/p/w500${arr.poster_path}`;
+    let year = arr.release_date.slice(0, 4);
+    // let year = arr.first_air_date.slice(0, 4);
+    // console.log(arr.first_air_date);
+
     let markup = ` <div class="top_movie reloaded">
              <div class="top_10">
                 <div class="image_div_top">
                    <img
-                   src="https://image.tmdb.org/t/p/w500/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg"
+                   src="${link}"
                    alt=""
                   class="top_10_image"
                    />
@@ -270,14 +379,14 @@ function renderMovie_straignt() {
                 <div class="top_10_detail">
                   <h6 class="top_paragraph">
                       <span class="top_genre">MOVIE /</span>
-                       <span class="top_year">2023 /</span>
+                       <span class="top_year">${year} /</span>
                        <span class="top_min">100 min</span>
                   </h6>
-                   <h6 class="top_title">The Professor</h6>
+                   <h6 class="top_title">${arr.title}</h6>
                 </div>
               </div>`;
     markup_array.push(markup);
-  }
+  });
 
   const footerEl = ` <footer class="section_three last_footer">
         <div class="logo_name onfocus">
@@ -312,22 +421,21 @@ function renderMovie_straignt() {
   const markup_recommended = markup_array.join("");
   const top_moviesEL = document.querySelector(".top_movies_div");
   top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
-  trending_divEL.classList.add("hidden");
 }
 
 // Render MOvie Page //
-function renderMOviePage() {
+async function renderMOviePage() {
   Array.from(parentELs).forEach((el) => {
     el.addEventListener("click", function (event) {
-      id = event.target.dataset.id;
-      console.log(event.target.dataset.id, id);
+      id = el.dataset.id;
+      // console.log(el.dataset, id);
       location.hash = "#moviename";
       renderMovie_straignt();
     });
   });
 }
 
-function renderHomeHtml() {
+async function renderHomeHtml() {
   console.log();
   let home_movie = data.slice(0, 4);
   let landing_array = [];
@@ -348,7 +456,7 @@ function renderHomeHtml() {
               />
             </div>
           </section>
-          <div class="movie_landing" style="background-image:linear-gradient(rgba(255, 255, 255, 0), rgba(22, 22, 22, 1)), url('${bg_link}')">
+          <div class="movie_landing" style="background-image:linear-gradient(rgba(25, 20, 20, 0.1), rgba(22, 22, 22, 1)), url('${bg_link}')">
             <h4 class="movie_name">${movie.title}</h4>
             <div class="inner_landing_div">
               <h4 class="clicked format">HD</h4>
@@ -390,7 +498,7 @@ function renderHomeHtml() {
 }
 
 // render Homepage //
-function renderHomePage() {
+async function renderHomePage() {
   // render landig page //
   renderHomeHtml();
   location.hash = "home";
@@ -406,7 +514,7 @@ function renderHomePage() {
   function moviestemplate(section) {
     let recomended_movies = data.slice(-11, -1);
     let latest_movies = data.slice(0, 10);
-    console.log(latest_movies);
+    // console.log(latest_movies);
     let movies_array = [];
     let elementHtml;
     let count = 0;
@@ -560,6 +668,14 @@ function renderHomePage() {
 function movie_page() {
   window.addEventListener("DOMContentLoaded", function () {
     renderMOviePage();
+
+    // tv shows & movies click //
+    const tvshowsEl = document.querySelector(".shows_btn");
+    const movies = document.querySelector(".moviess_btn");
+
+    // tvshow{sEl.addEventListener("click", function () {
+    //   console.log("btn clicked");
+    // });
   });
 }
 
@@ -587,7 +703,6 @@ function hash_func() {
   window.addEventListener("popstate", function (event) {
     console.log(this.location.hash);
     console.log(event);
-    // console.log("back button pressed");
   });
 }
 
