@@ -910,7 +910,7 @@ async function init() {
 // INstantiante the class //
 const api = new FetchdataAPI();
 
-api.getTrending().then((dataARRay) => {
+api.getTOPrated().then((dataARRay) => {
   // console.log(dataARRay);
   // --- run all functions -- //
   init();
