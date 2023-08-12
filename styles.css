@@ -199,6 +199,7 @@ body {
   display: grid;
 }
 .movie_play_btn {
+  padding-top: 35px;
   cursor: pointer;
   max-width: 70px;
   animation: increase_play;
@@ -209,7 +210,8 @@ body {
 }
 .movie_page {
   width: 100%;
-  height: 35dvh;
+  /* height: 35dvh; */
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -684,6 +686,7 @@ section.two {
   width: 100%;
 }
 .top_movies_div {
+  margin-top: 30px;
   display: block;
   width: 100%;
 }
@@ -909,15 +912,15 @@ p {
 .wrapper-movie {
   margin: auto;
   min-height: 600px;
-  width: 90%;
+  width: 80%;
   padding: 10px 15px;
-  border-radius: 10px;
+  border-radius: 15px;
   background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(25, 22, 22, 0.65)),
     url("https://i.pinimg.com/originals/52/79/a5/5279a591fe7b5aa3b6d2f53d4526a1de.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   color: rgb(190, 189, 189);
-  /* border: 4px solid red; */
+  border: 4px solid rgb(253, 15, 15, 0.3);
 }
 .single_movie {
   text-align: start;

@@ -258,7 +258,7 @@ function toggelMenu() {
   });
 }
 
-async function renderMovie_straignt() {
+async function renderMovie_straignt(id) {
   try {
     if (!id) throw new Error("There is no Movie Id");
     Array.from(single_movieTopEL).forEach((el) => {
@@ -366,8 +366,8 @@ async function renderMovie_straignt() {
 
         recommended_Array.forEach((arr) => {
           let link = `https://image.tmdb.org/t/p/w500${arr.poster_path}`;
-          let year = arr.release_date.slice(0, 4);
-          // let year = arr.first_air_date.slice(0, 4);
+          let year = arr.release_date ? arr.release_date.slice(0, 4) : "Null";
+
           // console.log(arr.first_air_date);
 
           let markup = ` <div class="top_movie reloaded">
@@ -441,13 +441,10 @@ async function renderMovie_straignt() {
 
 // Render MOvie Page //
 async function renderMOviePage() {
-  console.log("RENDER MOVIE CALLED");
   Array.from(parentELs).forEach((el) => {
     el.addEventListener("click", function (event) {
       id = el.dataset.id;
-      // console.log(el.dataset, id);
-      location.hash = "#moviename";
-      renderMovie_straignt();
+      renderMovie_straignt(id);
     });
   });
 }
@@ -507,7 +504,7 @@ async function renderHomeHtml(home_data) {
                   class="fa-regular fa-circle-play fa-xl"
                   style="color: #000000"
                 ></i>
-                <span class="span_watch">Watch Now</span>
+                <span class="span_watch"  data-id ="${id}" >Watch Now</span>
               </button>
               <h4 class="bookmark_item">
                 <i class="fa-regular fa-bookmark"></i
@@ -536,7 +533,11 @@ async function renderHomeHtml(home_data) {
       // console.log(watchBtns.length);
       Array.from(watchBtns).forEach((el) => {
         el.addEventListener("click", function (event) {
-          console.log(event.target);
+          id = event.target.dataset.id;
+          // location.hash = "#id";
+          // location.hash = `#${}`;
+          renderMovie_straignt(id);
+          console.log(event.target, id);
         });
       });
 
@@ -554,7 +555,7 @@ async function renderHomePage(data_Array) {
     if (!data_Array) throw new Error("No data for the HomaPage");
     // render landig page //
     renderHomeHtml(data_Array);
-    location.hash = "home";
+    // location.hash = "home";
     Array.from(single_movieTopEL).forEach((el) => {
       el.classList.add("animation_on");
     });
@@ -575,7 +576,11 @@ async function renderHomePage(data_Array) {
       if (section == "movies") {
         recomended_movies.forEach((movie) => {
           let image_link = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-          let year = movie.release_date.slice(0, 4);
+          // console.log(movie.release_date);
+
+          let year = movie.release_date
+            ? movie.release_date.slice(0, 4)
+            : "Null";
           elementHtml = `  <div class="wrapper_div ">
             <div class="image_div">
               <div class="cover_div show_image" data-id ="${movie.id}">
@@ -600,7 +605,7 @@ async function renderHomePage(data_Array) {
 
       latest_movies.forEach((movie) => {
         let image_link = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-        let year = movie.release_date.slice(0, 4);
+        let year = movie.release_date ? movie.release_date.slice(0, 4) : "Null";
         if (section == "topmovies") {
           count++;
           elementHtml = `  <div class="top_movie data-id ="${movie.id}">
@@ -716,8 +721,7 @@ async function renderHomePage(data_Array) {
     Array.from(parentELs).forEach((el) => {
       el.addEventListener("click", function (event) {
         id = el.dataset.id;
-        location.hash = "#moviename";
-        renderMovie_straignt();
+        renderMovie_straignt(id);
       });
     });
   } catch (err) {
@@ -738,7 +742,7 @@ function movie_page() {
 // listen to hash change//
 function hash_Change() {
   window.addEventListener("hashchange", function (event) {
-    // console.log("hash changeded to: ", this.location.hash);
+    console.log("hash changeded to: ", this.location.hash);
     if (this.location.hash == "#moviename") {
       // render movie page//
       renderMovie_straignt();
@@ -812,6 +816,7 @@ class FetchdataAPI {
         `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY_NEW}&language=en-US&page=1`
       );
       response = await response.json();
+      data = response.results;
       console.log(response.results);
       return response.results;
     } catch (err) {
@@ -861,7 +866,7 @@ class FetchdataAPI {
       );
 
       response = await response.json();
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (err) {
       console.error(err);
@@ -886,23 +891,22 @@ class FetchdataAPI {
   }
 }
 
-// INstantiante the class //
-const api = new FetchdataAPI();
-
-api.getTOPrated().then((dataARRay) => {
-  // console.log(dataARRay);
-
-  // --- run all functions -- //
-  init();
-});
-
 // data handler //
 async function init() {
   renderHomePage();
-  hash_Change();
+  // hash_Change();
   toggelMenu();
   movie_hover();
   scroll_naavbar();
   observeDivs();
   movie_page();
 }
+
+// INstantiante the class //
+const api = new FetchdataAPI();
+
+api.getTrending().then((dataARRay) => {
+  // console.log(dataARRay);
+  // --- run all functions -- //
+  init();
+});
