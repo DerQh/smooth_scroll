@@ -97,7 +97,7 @@ const showsgenre = `https://api.themoviedb.org/3/genre/tv/list?api_key=${API_KEY
 const section_OneEl = document.querySelector(".one");
 const navbarEL = document.querySelector(".navbar");
 const wrappperDivEl = document.getElementsByClassName("wrapper_div");
-const image_divEl = document.querySelectorAll(".image_div");
+const image_divEl = document.getElementsByClassName("image_div");
 
 const logoEl = document.querySelector(".logo");
 const menuDropEl = document.querySelector(".drop_down");
@@ -121,6 +121,8 @@ const landing_MovieEl = document.querySelector(".movie_landing");
 const trending_divEL = document.querySelector(".trending");
 let section_TwoEl = document.querySelector(".two");
 const parentELs = document.getElementsByClassName("cover_div");
+const watchBtns = document.getElementsByClassName("btn_watch");
+
 const single_movieTopEL = document.getElementsByClassName("single_movie_top");
 const wrapperDivEl = document.querySelectorAll(".wrapper_div");
 const months = [
@@ -262,25 +264,23 @@ async function renderMovie_straignt() {
     });
 
     let [id_array] = data.filter((dat) => dat.id == id);
-    console.log(id);
 
     api.getSingle(id).then((singleData) => {
-      console.log(singleData);
+      // console.log(singleData);
       api.getCredits(id).then((cast) => {
+        let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
+        let poster_link = `https://image.tmdb.org/t/p/w500${id_array.poster_path}`;
         let castNames = cast.cast
           .slice(0, 5)
           .map((cst) => cst.name)
           .join(", ");
-        console.log(castNames);
-      });
-    });
-    let backdrop_link = `https://image.tmdb.org/t/p/w500${id_array.backdrop_path}`;
-    let poster_link = `https://image.tmdb.org/t/p/w500${id_array.poster_path}`;
+        // console.log(castNames);
 
-    menuDIvEl.innerHTML = "";
-    const singleMovie = `<div class="single_movie_top">
-        <!-- HOmePage Landing Section  -->
-        <section class="landing_movie">
+        // ----RENDER THE HTML -
+        menuDIvEl.innerHTML = "";
+        const singleMovie = `<div class="single_movie_top">
+          <!-- HOmePage Landing Section  -->
+          <section class="landing_movie">
           <!-- Clicked Movie Page -->
           <section class="movie_page " style="background-image:linear-gradient(rgba(255, 255, 255, 0), rgba(22, 22, 22, 1)), url('${backdrop_link}')">
             <div class="play_btn_div">
@@ -291,11 +291,10 @@ async function renderMovie_straignt() {
               />
             </div>
           </section>
-        </section>
-      </div>`;
-    menuDIvEl.insertAdjacentHTML("afterbegin", singleMovie);
-
-    const markup = `<div class="wrapper-movie" style="background-image:linear-gradient(rgba(255, 255, 255, 0), rgba(22, 22, 22, 1)), url('${poster_link}')">
+          </section>
+        </div>`;
+        menuDIvEl.insertAdjacentHTML("afterbegin", singleMovie);
+        const markup = `<div class="wrapper-movie" style="background-image:linear-gradient(rgba(255, 255, 255, 0), rgba(22, 22, 22, 1)), url('${poster_link}')">
         <div class="single_movie">
           <div class="stars">
             <div class="ratings_stars">
@@ -307,8 +306,8 @@ async function renderMovie_straignt() {
             </div>
             <div class="review">
               <p>${id_array.vote_average} 0f 10(${
-      id_array.vote_count
-    }  reviews)</p>
+          id_array.vote_count
+        }  reviews)</p>
             </div>
           </div>
 
@@ -356,28 +355,17 @@ async function renderMovie_straignt() {
        </div>
         `;
 
-    section_TwoEl.innerHTML = "";
-    section_OneEl.classList.toggle("sec-one-top");
-    trending_divEL.classList.add("hidden");
+        section_TwoEl.innerHTML = "";
+        section_OneEl.classList.toggle("sec-one-top");
+        trending_divEL.classList.add("hidden");
 
-    // section_OneEl.classList.add("sticky");
-    //  section_OneEl.classList.remove("sticky");
-    //  navbarEL.classList.remove("sticky_movie");
-    // section_OneEl.classList.add("sticky_movie");
+        recommended_Array.forEach((arr) => {
+          let link = `https://image.tmdb.org/t/p/w500${arr.poster_path}`;
+          let year = arr.release_date.slice(0, 4);
+          // let year = arr.first_air_date.slice(0, 4);
+          // console.log(arr.first_air_date);
 
-    section_TwoEl.insertAdjacentHTML("afterbegin", markup);
-    // create the remomended section //
-    let markup_array = [];
-
-    let recommended_Array = data.slice(0, 11);
-
-    recommended_Array.forEach((arr) => {
-      let link = `https://image.tmdb.org/t/p/w500${arr.poster_path}`;
-      let year = arr.release_date.slice(0, 4);
-      // let year = arr.first_air_date.slice(0, 4);
-      // console.log(arr.first_air_date);
-
-      let markup = ` <div class="top_movie reloaded">
+          let markup = ` <div class="top_movie reloaded">
              <div class="top_10">
                 <div class="image_div_top">
                    <img
@@ -395,10 +383,16 @@ async function renderMovie_straignt() {
                    <h6 class="top_title">${arr.title}</h6>
                 </div>
               </div>`;
-      markup_array.push(markup);
-    });
+          markup_array.push(markup);
+        });
 
-    const footerEl = ` <footer class="section_three last_footer">
+        section_TwoEl.insertAdjacentHTML("afterbegin", markup);
+
+        // create the remomended section //
+        let markup_array = [];
+        let recommended_Array = data.slice(0, 11);
+
+        const footerEl = ` <footer class="section_three last_footer">
         <div class="logo_name onfocus">
           <h4 class="footer_logo">Movie<span>Hub</span></h4>
         </div>
@@ -427,10 +421,16 @@ async function renderMovie_straignt() {
         </h6>
         <h6 class="end">sana @2023 All rights reserved</h6>
       </footer>`;
-    markup_array.push(footerEl);
-    const markup_recommended = markup_array.join("");
-    const top_moviesEL = document.querySelector(".top_movies_div");
-    top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
+        markup_array.push(footerEl);
+        const markup_recommended = markup_array.join("");
+        const top_moviesEL = document.querySelector(".top_movies_div");
+        top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
+        // section_OneEl.classList.add("sticky");
+        //  section_OneEl.classList.remove("sticky");
+        //  navbarEL.classList.remove("sticky_movie");
+        // section_OneEl.classList.add("sticky_movie");
+      });
+    });
   } catch (err) {
     console.error(err);
   }
@@ -438,6 +438,7 @@ async function renderMovie_straignt() {
 
 // Render MOvie Page //
 async function renderMOviePage() {
+  console.log("RENDER MOVIE CALLED");
   Array.from(parentELs).forEach((el) => {
     el.addEventListener("click", function (event) {
       id = el.dataset.id;
@@ -527,6 +528,16 @@ async function renderHomeHtml(home_data) {
       menuDIvEl.innerHTML = "";
       landingHTML = empty.join("");
       menuDIvEl.insertAdjacentHTML("afterbegin", landingHTML);
+
+      // -----LISTEN TO CLICK ON THE WATCH BUTTONS AFTER THEY HAVE BEEN CREATED  ----//
+      console.log(watchBtns.length);
+      Array.from(watchBtns).forEach((el) => {
+        el.addEventListener("click", function (event) {
+          console.log(event.target);
+        });
+      });
+
+      // ////////
     });
   } catch (err) {
     console.error(err, "Error Retrieveing Homapage Data");
@@ -696,6 +707,16 @@ async function renderHomePage(data_Array) {
       </footer>`;
 
     section_TwoEl.insertAdjacentHTML("afterbegin", markup);
+
+    // -----LISTEN TO A CLICK ON THE MOVIE AFTER THEY HAVE BEEN CREATED ----//
+    console.log(parentELs.length);
+    Array.from(parentELs).forEach((el) => {
+      el.addEventListener("click", function (event) {
+        id = el.dataset.id;
+        location.hash = "#moviename";
+        renderMovie_straignt();
+      });
+    });
   } catch (err) {
     console.error(err);
   }
@@ -705,14 +726,8 @@ async function renderHomePage(data_Array) {
 function movie_page() {
   window.addEventListener("DOMContentLoaded", function () {
     renderMOviePage();
-
-    // tv shows & movies click //
     const tvshowsEl = document.querySelector(".shows_btn");
     const movies = document.querySelector(".moviess_btn");
-
-    // tvshow{sEl.addEventListener("click", function () {
-    //   console.log("btn clicked");
-    // });
   });
 }
 
@@ -795,7 +810,6 @@ class FetchdataAPI {
       );
       response = await response.json();
       console.log(response.results);
-      data = response.results;
       return response.results;
     } catch (err) {
       console.error(err);
@@ -808,6 +822,7 @@ class FetchdataAPI {
       );
       response = await response.json();
       console.log(response.results);
+      data = response;
       return response.results;
     } catch (err) {
       console.error(err);
@@ -831,7 +846,6 @@ class FetchdataAPI {
       response = await response.json();
       console.log(response.results);
       data = response.results;
-
       return response.results;
     } catch (err) {
       console.error(err);
@@ -873,6 +887,10 @@ class FetchdataAPI {
 const api = new FetchdataAPI();
 
 api.getTOPrated().then((dataARRay) => {
+  console.log(image_divEl);
+  //  Array.from(image_divEl).forEach(function (imageEl) {
+  //   console.log(true);
+  //  });
   // console.log(dataARRay);
   // api.getSingle("569094").then((singleData) => {
   //   // localStorage.setItem("single", JSON.stringify(singleData));
