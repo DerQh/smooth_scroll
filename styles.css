@@ -559,8 +559,7 @@ section.sticky {
 
 /* Trending */
 .trending {
-  overflow: hidden;
-
+  /* overflow: hidden; */
   position: relative;
   display: flex;
   flex-direction: column;
