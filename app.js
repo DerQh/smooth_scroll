@@ -263,6 +263,7 @@ function toggelMenu() {
 // SLIDE TRENDING MOVIES FUNCION //
 //
 function trendingSlider() {
+  if (!data) return;
   let count = 0;
   sliderContainer.addEventListener("click", function (event) {
     if (count >= data.length) count = 0;
@@ -300,7 +301,7 @@ function trendingSlider() {
   //   });
   // });
 }
-trendingSlider();
+
 //
 async function renderMovie_straignt(id_film) {
   try {
@@ -310,7 +311,7 @@ async function renderMovie_straignt(id_film) {
     });
     api.getSingle(id_film).then((singleData) => {
       // console.log(singleData);
-      console.log(id_film);
+      // console.log(id_film);
       api.getCredits(id_film).then((cast) => {
         // console.log(cast);
         let countries = singleData.production_countries.map((dat) => dat.name);
@@ -489,7 +490,7 @@ async function renderMOviePage() {
   Array.from(parentELs).forEach((el) => {
     el.addEventListener("click", function (event) {
       const movie_id = el.dataset.id;
-      console.log(id);
+      // console.log(id);
       renderMovie_straignt(movie_id);
     });
   });
@@ -511,6 +512,7 @@ async function renderHomeHtml(home_data) {
           let single_mov = await api.getSingle(mov.id);
           // console.log(single_mov.runtime);
           year = single_mov.release_date.slice(0, 4);
+          // console.log(year);
           runtime = single_mov.runtime;
           genre = single_mov.genres[0].name;
           bg_link = `https://image.tmdb.org/t/p/w500${single_mov.backdrop_path}`;
@@ -581,7 +583,7 @@ async function renderHomeHtml(home_data) {
       Array.from(watchBtns).forEach((el) => {
         el.addEventListener("click", function (event) {
           const movie_id = el.dataset.id;
-          console.log(id);
+          // console.log(id);
           // location.hash = `#${}`;
           renderMovie_straignt(movie_id);
         });
@@ -768,7 +770,7 @@ async function renderHomePage(data_Array) {
     Array.from(parentELs).forEach((el) => {
       el.addEventListener("click", function (event) {
         const movie_id = el.dataset.id;
-        console.log(movie_id);
+        // console.log(movie_id);
         renderMovie_straignt(movie_id);
       });
     });
@@ -791,11 +793,11 @@ function movie_page() {
 // listen to hash change//
 function hash_Change() {
   window.addEventListener("hashchange", function (event) {
-    console.log("hash changeded to: ", this.location.hash);
+    // console.log("hash changeded to: ", this.location.hash);
     if (location.hash == "#moviename") {
       // render movie page//
       renderMovie_straignt();
-      if (id) console.log(true);
+      // if (id) console.log(true);
     }
     if (location.hash == "#home") {
       // render home page
@@ -890,7 +892,7 @@ class FetchdataAPI {
   async printData(dataArray) {
     try {
       if (dataArray) throw new Error("There in no data ");
-      console.log("data will be printed");
+      // console.log("data will be printed");
       console.log(dataArray);
     } catch (err) {
       console.error(err);
@@ -963,15 +965,15 @@ async function init() {
   movie_hover();
   scroll_naavbar();
   observeDivs();
+  trendingSlider();
 }
 
 // INstantiante the class //
 const api = new FetchdataAPI();
 
-api.getTOPrated().then((dataARRay) => {
+api.getTrending().then((dataARRay) => {
   data = dataARRay;
-  trendingSlider();
-
+  if (!data) return;
   // --- run all functions -- //
   init();
 });
