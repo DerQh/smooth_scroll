@@ -474,6 +474,7 @@ async function renderMovie_straignt(id_film) {
         const markup_recommended = markup_array.join("");
         const top_moviesEL = document.querySelector(".top_movies_div");
         top_moviesEL.insertAdjacentHTML("beforeend", markup_recommended);
+        window.scrollTo({ top: 0, behavior: "smooth" });
         // section_OneEl.classList.add("sticky");
         //  section_OneEl.classList.remove("sticky");
         //  navbarEL.classList.remove("sticky_movie");
