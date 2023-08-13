@@ -1,12 +1,10 @@
-// const { async } = require("regenerator-runtime");
-
 // VARIABLES //
 const url =
   "https://api.themoviedb.org/3/movie/550?api_key=fe06dea7adb7b94ebb81f9d0294ebddc";
 const url2 =
   "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=fe06dea7adb7b94ebb81f9d0294ebddc&page=1";
 
-const MOVIE_DB_API_KEY = "1c71ee163e25b728eb804e977142d48f";
+const AUTH_KEY = "1c71ee163e25b728eb804e977142d48f";
 const API_KEY_NEW = "fe06dea7adb7b94ebb81f9d0294ebddc";
 const MOVIE_DB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie";
 const MOVIE_DB_INFO_URL = "https://api.themoviedb.org/3/movie";
@@ -119,9 +117,13 @@ const sectionOneEl = document.querySelector(".one");
 const movie_pageEl = document.querySelector(".movie_page");
 const landing_MovieEl = document.querySelector(".movie_landing");
 const trending_divEL = document.querySelector(".trending");
+const trending_div_innnerEL = document.querySelector(".trending_div");
 let section_TwoEl = document.querySelector(".two");
 const parentELs = document.getElementsByClassName("cover_div");
 const watchBtns = document.getElementsByClassName("btn_watch");
+
+const sliderContainer = document.querySelector(".trending_div");
+const sliderEls = document.getElementsByClassName("trending-mov-div");
 
 const single_movieTopEL = document.getElementsByClassName("single_movie_top");
 const wrapperDivEl = document.querySelectorAll(".wrapper_div");
@@ -258,9 +260,50 @@ function toggelMenu() {
   });
 }
 
+// SLIDE TRENDING MOVIES FUNCION //
+//
+function trendingSlider() {
+  let count = 0;
+  sliderContainer.addEventListener("click", function (event) {
+    if (count >= data.length) count = 0;
+    // console.log(data[count]);
+    sliderContainer.innerHTML = "";
+    let link = `${MOVIE_DB_IMAGE_URL}${data[count].backdrop_path}`;
+    // console.log(link);
+    const markup = `<div class="trending-mov-div">
+          <div class="next_page">
+            <img class="next_icon" src="./images/next-button.png" alt="" />
+          </div>
+          <div class="trending_details">
+            <h4 class="trending_genre">${data[count].title}</h4>
+            <h4 class="trending_genre">Movie</h4>
+          </div>`;
+    sliderContainer.insertAdjacentHTML("afterbegin", markup);
+    trending_div_innnerEL.style.backgroundImage = `linear-gradient(
+      rgba(255, 255, 255, 0.2),
+      rgba(22, 22, 22, 0.5)
+    ),
+    url("${link}")`;
+    count++;
+  });
+
+  // let imageWidth = sliderEls[0].clientWidth;
+  // console.log(imageWidth);
+  // let currentIndex = 0;
+  // sliderContainer.style.transform = `translateX(${
+  //   -imageWidth * currentIndex
+  // }px)`;
+  // Array.from(sliderEls).forEach((element, index) => {
+  //   element.addEventListener("click", (event) => {
+  //     // sliderContainer.style.transform = `translateX(${-100}%)`;
+  //     // currentIndex = index;
+  //   });
+  // });
+}
+trendingSlider();
+//
 async function renderMovie_straignt(id_film) {
   try {
-    
     location.hash = "#moviename";
     Array.from(single_movieTopEL).forEach((el) => {
       el.classList.remove("animation_on");
@@ -533,6 +576,7 @@ async function renderHomeHtml(home_data) {
       menuDIvEl.insertAdjacentHTML("afterbegin", landingHTML);
 
       // -----LISTEN TO CLICK ON THE WATCH BUTTONS AFTER THEY HAVE BEEN CREATED  ----//
+
       // console.log(watchBtns.length);
       Array.from(watchBtns).forEach((el) => {
         el.addEventListener("click", function (event) {
@@ -734,6 +778,7 @@ async function renderHomePage(data_Array) {
 }
 
 // click wrapper div to = MOVIE //
+//
 function movie_page() {
   window.addEventListener("DOMContentLoaded", function () {
     renderMOviePage();
@@ -889,6 +934,19 @@ class FetchdataAPI {
       console.error(err);
     }
   }
+
+  async searchMovie(movie_name) {
+    try {
+      const data1 = await fetch(
+        `https://api.themoviedb.org/3/search/movie?query=${movie_name}&api_key=${AUTH_KEY}`
+      );
+      response = await data1.json();
+      data = await response.results;
+      return response.results;
+    } catch (err) {
+      console.error(err);
+    }
+  }
   async getLocal() {
     let response = await JSON.parse(localStorage.getItem("movies"));
     data = response;
@@ -911,7 +969,12 @@ async function init() {
 const api = new FetchdataAPI();
 
 api.getTOPrated().then((dataARRay) => {
-  // console.log(dataARRay);
+  data = dataARRay;
+  trendingSlider();
+
   // --- run all functions -- //
   init();
 });
+
+// TO DO LIST //
+// Implement search and trending sections
