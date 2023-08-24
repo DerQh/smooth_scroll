@@ -357,7 +357,7 @@ async function renderMovie_straignt(id_film) {
               <i class="fa-regular fa-star fa-lg"></i>
             </div>
             <div class="review">
-              <p>${singleData.vote_average} 0f 10(${
+              <p>${singleData.vote_average} of 10 (${
           singleData.vote_count
         }  reviews)</p>
             </div>
